@@ -1,20 +1,21 @@
-/* ═══════════════════════════════════════
-   CineAura Hero Section — Recommendation-Focused
-   ═══════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════
+   CineAura Hero Section — Premium Cinematic Showcase
+   ═══════════════════════════════════════════════════════ */
 
+/* ── Container ────────────────────────────────────────── */
 .hero {
   position: relative;
   width: 100%;
-  min-height: 600px;
+  min-height: 85vh;
+  max-height: 780px;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  border-radius: 18px;
   overflow: hidden;
-  margin-bottom: 1rem;
+  isolation: isolate;
 }
 
-/* Subtle ambient wash */
+/* ── Ambient Recommendation Aura ────────────────────── */
 .hero::before {
   content: '';
   position: absolute;
@@ -22,78 +23,89 @@
   pointer-events: none;
   background:
     radial-gradient(
-      ellipse at 15% 70%,
-      rgba(124, 58, 237, .07),
-      transparent 55%
+      ellipse 60% 50% at 15% 80%,
+      rgba(124, 58, 237, 0.08),
+      transparent
     );
-  animation: heroAmbientPulse 10s ease-in-out infinite;
-  z-index: 1;
+  animation: heroAuraPulse 8s ease-in-out infinite;
+  z-index: 2;
 }
 
-@keyframes heroAmbientPulse {
-  0%, 100% { opacity: .4; }
-  50% { opacity: .8; }
+@keyframes heroAuraPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.85; }
 }
 
-/* ── Backdrop ───────────────────────── */
+/* ═══════════════════════════════════════════════════════
+   BACKDROP — Cinematic Parallax Layer System
+   ═══════════════════════════════════════════════════════ */
 .hero__backdrop {
   position: absolute;
   inset: 0;
+  z-index: 0;
 }
 
 .hero__backdrop-img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center 20%;
-  animation: heroKenBurns 25s ease-in-out infinite alternate;
   will-change: transform;
-  filter: brightness(0.87);
+  animation: heroKenBurns 30s ease-in-out infinite alternate;
+  filter: brightness(0.82) saturate(1.1);
 }
 
-/* ── Right-side blur zone — softens artwork on the insight side ── */
-.hero__backdrop-img--absolute {
-  position: absolute;
-  top: 0;
-  left: 0;
+@keyframes heroKenBurns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  25% {
+    transform: scale(1.04) translate(-0.5%, 0.5%);
+  }
+  50% {
+    transform: scale(1.07) translate(-1%, -0.3%);
+  }
+  75% {
+    transform: scale(1.04) translate(0.3%, 0.5%);
+  }
+  100% {
+    transform: scale(1.08) translate(-0.8%, -0.5%);
+  }
 }
 
+/* ── Right-side blur zone — softens backdrop on insight side ── */
 .hero__backdrop::after {
   content: '';
   position: absolute;
   top: 0;
   right: 0;
-  width: 60%;
+  width: 55%;
   height: 100%;
-  backdrop-filter: blur(2.5px);
-  -webkit-backdrop-filter: blur(2.5px);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
   z-index: 2;
-  /* mask feathers the blur edge — not a color overlay */
-  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.75) 35%, rgba(0,0,0,0.9) 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.75) 35%, rgba(0,0,0,0.9) 100%);
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.85) 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.85) 100%);
   pointer-events: none;
 }
 
-@keyframes heroKenBurns {
-  0% {
-    transform: scale(1) translateX(0);
-  }
-  100% {
-    transform: scale(1.06) translateX(-1%);
-  }
-}
-
-/* ── Gradient Overlays ──────────────── */
+/* ═══════════════════════════════════════════════════════
+   GRADIENT DEPTH SYSTEM — 4-layer cinematic overlays
+   ═══════════════════════════════════════════════════════ */
 .hero__gradient--bottom {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 55%;
+  height: 65%;
   background: linear-gradient(
     0deg,
     #0B0F1A 0%,
-    rgba(11, 15, 26, 0.55) 45%,
+    rgba(11, 15, 26, 0.95) 15%,
+    rgba(11, 15, 26, 0.5) 45%,
     transparent 100%
   );
   z-index: 1;
@@ -104,10 +116,10 @@
   inset: 0;
   background: linear-gradient(
     90deg,
-    rgba(8, 10, 18, 0.7) 0%,
-    rgba(11, 15, 26, 0.35) 30%,
-    rgba(11, 15, 26, 0.08) 55%,
-    transparent 75%
+    rgba(8, 10, 18, 0.8) 0%,
+    rgba(11, 15, 26, 0.45) 25%,
+    rgba(11, 15, 26, 0.1) 50%,
+    transparent 70%
   );
   z-index: 1;
 }
@@ -116,56 +128,194 @@
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    ellipse at center,
-    transparent 55%,
-    rgba(11, 15, 26, 0.25) 100%
+    ellipse 120% 100% at center,
+    transparent 40%,
+    rgba(11, 15, 26, 0.35) 100%
   );
   z-index: 1;
 }
 
-/* ── Content (Left) ─────────────────── */
+.hero__gradient--top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 25%;
+  background: linear-gradient(
+    180deg,
+    rgba(11, 15, 26, 0.4) 0%,
+    transparent 100%
+  );
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════════════════
+   SPOTLIGHT — Dynamic cinematic glow
+   ═══════════════════════════════════════════════════════ */
+.hero__spotlight {
+  position: absolute;
+  bottom: -10%;
+  left: 5%;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(124, 58, 237, 0.06) 0%,
+    rgba(139, 92, 246, 0.03) 40%,
+    transparent 70%
+  );
+  filter: blur(60px);
+  z-index: 2;
+  pointer-events: none;
+  animation: spotlightDrift 20s ease-in-out infinite alternate;
+}
+
+@keyframes spotlightDrift {
+  0% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+  50% { transform: translate(40px, -30px) scale(1.15); opacity: 1; }
+  100% { transform: translate(-20px, 10px) scale(0.95); opacity: 0.6; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   AMBIENT PARTICLES — Floating light motes
+   ═══════════════════════════════════════════════════════ */
+.hero__particles {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero__particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(168, 132, 252, 0.4);
+  opacity: 0;
+  animation: particleFloat linear infinite;
+}
+
+@keyframes particleFloat {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0);
+  }
+  10% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.3;
+    transform: translateY(-80px) translateX(30px);
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-160px) translateX(-20px);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   CONTENT (Left) — Staggered cinematic text
+   ═══════════════════════════════════════════════════════ */
 .hero__content {
   position: relative;
-  z-index: 2;
-  padding: 2.5rem 3rem 3rem;
-  max-width: 600px;
+  z-index: 5;
+  padding: 0 3.5rem 4rem;
+  max-width: 640px;
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-/* ── Dynamic Eyebrow ────────────────── */
+/* ── Dynamic Eyebrow ────────────────────────────────── */
 .hero__eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.5rem;
   font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: rgba(168, 132, 252, 0.9);
-  margin-bottom: 1rem;
+  letter-spacing: 0.2em;
+  color: rgba(168, 132, 252, 0.95);
+  margin-bottom: 1.25rem;
   width: fit-content;
+  padding: 0.35rem 0.85rem 0.35rem 0.6rem;
+  background: rgba(124, 58, 237, 0.08);
+  border: 1px solid rgba(124, 58, 237, 0.15);
+  border-radius: 100px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.hero__eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #a78bfa;
+  animation: eyebrowPulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes eyebrowPulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3); }
 }
 
 .hero__eyebrow svg {
   opacity: 0.8;
+  flex-shrink: 0;
 }
 
-/* ── Meta Row ──────────────────────── */
+/* ── Title — Dominant cinematic element ─────────────── */
+.hero__title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  margin-bottom: 1rem;
+  color: #F8FAFC;
+  text-shadow:
+    0 4px 40px rgba(0, 0, 0, 0.95),
+    0 2px 12px rgba(0, 0, 0, 0.8);
+  position: relative;
+  max-width: 580px;
+}
+
+/* Title glow bloom */
+.hero__title::before {
+  content: '';
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  left: -80px;
+  top: -80px;
+  background: radial-gradient(
+    circle,
+    rgba(124, 58, 237, 0.06),
+    transparent 65%
+  );
+  z-index: -1;
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+/* ── Meta Row ──────────────────────────────────────── */
 .hero__meta-row {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.85rem;
 }
 
 .hero__meta-item {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 500;
   color: rgba(248, 250, 252, 0.55);
   letter-spacing: 0.02em;
@@ -189,52 +339,23 @@
   flex-shrink: 0;
 }
 
-/* ── Title ──────────────────────────── */
-.hero__title {
-  font-size: 3.5rem;
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-  margin-bottom: 0.85rem;
-  color: #F8FAFC;
-  text-shadow:
-    0 4px 30px rgba(0, 0, 0, 0.9),
-    0 2px 8px rgba(0, 0, 0, 0.7);
-  position: relative;
-}
-
-.hero__title::before {
-  content: '';
-  position: absolute;
-  width: 280px;
-  height: 280px;
-  left: -60px;
-  top: -60px;
-  background: radial-gradient(
-    circle,
-    rgba(124, 58, 237, .08),
-    transparent 70%
-  );
-  z-index: -1;
-  filter: blur(50px);
-  pointer-events: none;
-}
-
-/* ── Description ────────────────────── */
+/* ── Description ────────────────────────────────────── */
 .hero__description {
-  font-size: 0.9375rem;
-  color: rgba(248, 250, 252, 0.7);
-  line-height: 1.65;
-  margin-bottom: 1.75rem;
-  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.9);
+  font-size: 0.95rem;
+  color: rgba(248, 250, 252, 0.65);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.9);
   font-weight: 400;
-  max-width: 540px;
+  max-width: 520px;
 }
 
-/* ── Buttons ────────────────────────── */
+/* ═══════════════════════════════════════════════════════
+   BUTTONS — Premium glassmorphic actions
+   ═══════════════════════════════════════════════════════ */
 .hero__actions {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.85rem;
   align-items: center;
 }
 
@@ -242,27 +363,28 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.7rem 1.6rem;
-  font-size: 0.875rem;
+  padding: 0.75rem 1.75rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  border-radius: 10px;
+  border-radius: 12px;
   border: none;
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   letter-spacing: 0.01em;
+  position: relative;
+  overflow: hidden;
 }
 
 .hero__btn--primary {
   background: linear-gradient(135deg, #7C3AED, #A855F7);
   color: #F8FAFC;
   box-shadow:
-    0 6px 24px rgba(124, 58, 237, .3),
-    0 0 0 1px rgba(124, 58, 237, .15);
-  position: relative;
-  overflow: hidden;
+    0 6px 28px rgba(124, 58, 237, 0.35),
+    0 0 0 1px rgba(124, 58, 237, 0.15);
 }
 
+/* Shimmer sweep */
 .hero__btn--primary::before {
   content: '';
   position: absolute;
@@ -273,11 +395,11 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, .2),
+    rgba(255, 255, 255, 0.2),
     transparent
   );
   transform: skewX(-20deg);
-  transition: left .7s ease;
+  transition: left 0.7s ease;
 }
 
 .hero__btn--primary:hover::before {
@@ -286,116 +408,179 @@
 
 .hero__btn--primary:hover {
   box-shadow:
-    0 10px 36px rgba(124, 58, 237, .45),
-    0 0 0 1px rgba(124, 58, 237, .3);
+    0 12px 40px rgba(124, 58, 237, 0.5),
+    0 0 0 1px rgba(124, 58, 237, 0.3);
   transform: translateY(-2px);
   color: #fff;
 }
 
 .hero__btn--secondary {
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: rgba(248, 250, 252, 0.9);
 }
 
 .hero__btn--secondary:hover {
   background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.18);
-  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
-/* ═══════════════════════════════════════
-   Recommendation Insight Card (Right)
-   ═══════════════════════════════════════ */
+.hero__btn--saved {
+  background: rgba(124, 58, 237, 0.12);
+  border-color: rgba(124, 58, 237, 0.35);
+  color: #c4b5fd;
+}
+
+.hero__btn--saved:hover {
+  background: rgba(124, 58, 237, 0.2);
+}
+
+/* ═══════════════════════════════════════════════════════
+   INSIGHT CARD — Recommendation intelligence panel
+   ═══════════════════════════════════════════════════════ */
 .hero__insight-card {
   position: absolute;
-  right: 2.5rem;
-  bottom: 3rem;
-  z-index: 3;
-  width: 225px;
-  padding: 1.25rem 1.25rem 1.25rem 1.1rem;
-  background: rgba(8, 10, 20, 0.72);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
-  border: 1px solid rgba(139, 92, 246, 0.14);
-  border-left: 2px solid rgba(139, 92, 246, 0.5);
-  border-radius: 14px;
+  right: 3rem;
+  bottom: 4rem;
+  z-index: 6;
+  width: 240px;
+  padding: 1.5rem 1.35rem;
+  background: rgba(8, 10, 20, 0.55);
+  backdrop-filter: blur(32px) saturate(1.3);
+  -webkit-backdrop-filter: blur(32px) saturate(1.3);
+  border: 1px solid rgba(139, 92, 246, 0.12);
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.85rem;
+  gap: 1rem;
+  overflow: hidden;
 }
 
-/* ── Score Circle ───────────────────── */
+/* Subtle inner glow */
+.hero__insight-glow {
+  position: absolute;
+  top: -30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200%;
+  height: 60%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(139, 92, 246, 0.08),
+    transparent 60%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Score Circle — SVG ring ──────────────────────── */
 .hero__insight-score {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.45rem;
+  position: relative;
+  z-index: 1;
 }
 
 .hero__insight-score-ring {
-  width: 58px;
-  height: 58px;
-  border-radius: 50%;
-  border: 2px solid rgba(139, 92, 246, 0.58);
+  width: 62px;
+  height: 62px;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(109, 40, 217, 0.12);
+}
+
+.hero__insight-score-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.hero__insight-score-track {
+  fill: none;
+  stroke: rgba(139, 92, 246, 0.15);
+  stroke-width: 3;
+}
+
+.hero__insight-score-fill {
+  fill: none;
+  stroke: rgba(139, 92, 246, 0.7);
+  stroke-width: 3;
+  stroke-linecap: round;
+  transition: stroke-dasharray 1s ease-out;
 }
 
 .hero__insight-score-value {
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   font-weight: 700;
   color: #F8FAFC;
   letter-spacing: -0.02em;
+  position: relative;
+  z-index: 1;
 }
 
 .hero__insight-score-label {
-  font-size: 0.6rem;
+  font-size: 0.58rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.14em;
   color: rgba(248, 250, 252, 0.4);
 }
 
-/* ── Divider ────────────────────────── */
+/* ── Divider ────────────────────────────────────────── */
 .hero__insight-divider {
   width: 100%;
   height: 1px;
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.1),
+    rgba(139, 92, 246, 0.2),
     transparent
   );
+  position: relative;
+  z-index: 1;
 }
 
-/* ── Reasons ────────────────────────── */
+/* ── Reasons ────────────────────────────────────────── */
 .hero__insight-reasons {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.55rem;
+  position: relative;
+  z-index: 1;
 }
 
 .hero__insight-heading {
-  font-size: 0.6rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.58rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.14em;
   color: rgba(167, 139, 250, 0.92);
-  margin-bottom: 0.1rem;
+  margin-bottom: 0.15rem;
+}
+
+.hero__insight-heading svg {
+  opacity: 0.7;
 }
 
 .hero__insight-reason {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   font-weight: 450;
   color: rgba(248, 250, 252, 0.8);
   line-height: 1.3;
@@ -406,13 +591,20 @@
   flex-shrink: 0;
 }
 
-/* ── Pagination Dots ───────────────── */
-.hero__dots {
+/* ═══════════════════════════════════════════════════════
+   PAGINATION — Progress-aware navigation
+   ═══════════════════════════════════════════════════════ */
+.hero__pagination {
   position: absolute;
-  bottom: 1.25rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3;
+  bottom: 1.5rem;
+  left: 3.5rem;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hero__dots {
   display: flex;
   gap: 0.5rem;
   align-items: center;
@@ -421,30 +613,57 @@
 .hero__dot {
   width: 6px;
   height: 6px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.25);
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.2);
   border: none;
   padding: 0;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
 }
 
 .hero__dot--active {
-  width: 20px;
-  border-radius: 3px;
-  background: rgba(168, 132, 252, 0.8);
-  box-shadow: 0 0 8px rgba(168, 132, 252, 0.3);
+  width: 32px;
+  height: 4px;
+  background: rgba(168, 132, 252, 0.2);
+  border-radius: 100px;
+}
+
+.hero__dot-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: rgba(168, 132, 252, 0.85);
+  border-radius: 100px;
+  transition: width 0.15s linear;
 }
 
 .hero__dot:hover:not(.hero__dot--active) {
-  background: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(1.3);
 }
 
-/* ── Empty / Welcome State ──────────── */
+/* ── Bottom Edge Blend ─────────────────────────────── */
+.hero__bottom-edge {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #0B0F1A;
+  z-index: 7;
+}
+
+/* ═══════════════════════════════════════════════════════
+   EMPTY / WELCOME STATE
+   ═══════════════════════════════════════════════════════ */
 .hero--empty {
   align-items: center;
   justify-content: center;
   min-height: 420px;
+  max-height: 420px;
   background:
     radial-gradient(ellipse at 30% 40%, rgba(124, 58, 237, 0.06) 0%, transparent 60%),
     linear-gradient(180deg, rgba(17, 24, 39, 0.5) 0%, #0B0F1A 100%);
@@ -469,7 +688,7 @@
 
 .hero__empty-subtitle {
   font-size: 1.125rem;
-  color: var(--ca-text-secondary, #94A3B8);
+  color: #94A3B8;
   font-weight: 400;
 }
 
@@ -504,64 +723,85 @@
   100% { transform: translate(25px, -15px); }
 }
 
-/* ── Responsive ─────────────────────── */
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE — Mobile-first progressive enhancement
+   ═══════════════════════════════════════════════════════ */
+@media (max-width: 1280px) {
+  .hero__insight-card {
+    right: 2rem;
+    bottom: 3.5rem;
+    width: 220px;
+    padding: 1.25rem;
+  }
+}
+
 @media (max-width: 1024px) {
   .hero {
-    min-height: 500px;
+    min-height: 70vh;
+    max-height: 600px;
   }
 
   .hero__title {
-    font-size: 2.5rem;
+    font-size: clamp(2rem, 4.5vw, 3rem);
   }
 
   .hero__content {
-    padding: 2rem;
+    padding: 0 2.5rem 3.5rem;
     max-width: 520px;
   }
 
   .hero__insight-card {
     right: 1.5rem;
-    bottom: 2.5rem;
-    width: 195px;
-    padding: 1rem 1rem 1rem 0.9rem;
+    bottom: 3rem;
+    width: 200px;
+    padding: 1.1rem 1rem;
   }
 
   .hero__insight-score-ring {
-    width: 48px;
-    height: 48px;
+    width: 50px;
+    height: 50px;
   }
 
   .hero__insight-score-value {
     font-size: 1.1rem;
   }
+
+  .hero__pagination {
+    left: 2.5rem;
+  }
 }
 
 @media (max-width: 768px) {
   .hero {
-    min-height: 400px;
-    border-radius: 14px;
+    min-height: 55vh;
+    max-height: 500px;
   }
 
   .hero__title {
-    font-size: 2rem;
+    font-size: clamp(1.7rem, 5vw, 2.2rem);
   }
 
   .hero__description {
-    font-size: 0.8125rem;
+    font-size: 0.85rem;
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .hero__content {
-    padding: 1.5rem;
+    padding: 0 1.5rem 3rem;
     max-width: 100%;
   }
 
   .hero__btn {
-    padding: 0.55rem 1.15rem;
-    font-size: 0.8125rem;
+    padding: 0.6rem 1.25rem;
+    font-size: 0.82rem;
   }
 
   .hero__eyebrow {
     font-size: 0.6rem;
+    padding: 0.3rem 0.7rem 0.3rem 0.5rem;
   }
 
   /* Hide insight card on tablet/mobile */
@@ -569,37 +809,85 @@
     display: none;
   }
 
+  .hero__particles {
+    display: none;
+  }
+
+  .hero__spotlight {
+    display: none;
+  }
+
   .hero--empty {
     min-height: 300px;
+    max-height: 300px;
   }
 
   .hero__empty-title {
     font-size: 2rem;
   }
 
-  .hero__dots {
-    bottom: 0.75rem;
+  .hero__pagination {
+    left: 1.5rem;
+    bottom: 1rem;
+  }
+
+  .hero__dot--active {
+    width: 24px;
   }
 }
 
 @media (max-width: 480px) {
   .hero {
-    min-height: 340px;
+    min-height: 45vh;
+    max-height: 400px;
   }
 
   .hero__title {
-    font-size: 1.65rem;
+    font-size: 1.6rem;
   }
 
   .hero__actions {
     flex-direction: column;
+    width: 100%;
   }
 
   .hero__btn {
     justify-content: center;
+    width: 100%;
   }
 
   .hero__meta-separator {
     margin: 0 0.4rem;
+  }
+
+  .hero__content {
+    padding: 0 1rem 2.5rem;
+  }
+
+  .hero__pagination {
+    left: 1rem;
+    bottom: 0.75rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   PERFORMANCE — GPU acceleration hints
+   ═══════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .hero__backdrop-img {
+    animation: none;
+  }
+  .hero__particle {
+    animation: none;
+    display: none;
+  }
+  .hero__spotlight {
+    animation: none;
+  }
+  .hero::before {
+    animation: none;
+  }
+  .hero__eyebrow-dot {
+    animation: none;
   }
 }
