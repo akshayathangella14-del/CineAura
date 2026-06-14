@@ -29,15 +29,11 @@ config()
 const app = exp()
 
 app.use(cors({
-    origin: [
-        'http://localhost:5173',
-        'http://localhost:5174',
-        'https://cine-aura-6jojbkavs-akshayathangella14-dels-projects.vercel.app'
-    ],
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    origin: true,
+    credentials: true
 }))
+
+app.options('*', cors())
 
 //body parser middleware
 app.use(exp.json())
@@ -79,8 +75,17 @@ app.get("/health", (req, res) => {
     res.status(200).json({ message: "CineAura server is running" })
 })
 
+app.get("/debug-routes", (req, res) => {
+    res.json({
+        login: "/login",
+        register: "/register",
+        profile: "/profile"
+    })
+})
+
 //api routes
 app.use(userApp)
+console.log("User routes loaded")
 app.use(profileIdentityApp)
 app.use(actorApp)
 app.use(avatarApp)
