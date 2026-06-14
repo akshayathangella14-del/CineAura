@@ -72,8 +72,12 @@ export const loginUser = async (req, res) => {
 
         res.cookie(COOKIE_NAME, token, {
             httpOnly: true,
-            sameSite: "lax",
-            secure: process.env.NODE_ENV === "production"
+            secure: process.env.NODE_ENV === "production",
+            sameSite:
+                process.env.NODE_ENV === "production"
+                    ? "none"
+                    : "lax",
+            maxAge: 7 * 24 * 60 * 60 * 1000
         })
 
         const loggedInUser = await UserModel.findById(user._id).select('-password')
@@ -145,8 +149,11 @@ export const logoutUser = async (req, res) => {
     try {
         res.clearCookie(COOKIE_NAME, {
             httpOnly: true,
-            sameSite: "lax",
-            secure: process.env.NODE_ENV === "production"
+            secure: process.env.NODE_ENV === "production",
+            sameSite:
+                process.env.NODE_ENV === "production"
+                    ? "none"
+                    : "lax"
         })
 
         res.status(200).json({ message: "Logged out successfully" })
