@@ -29,9 +29,10 @@ config()
 const app = exp()
 
 app.use(cors({
-    origin: true,
+    origin: "https://cine-aura-6jojbkavs-akshayathangella14-dels-projects.vercel.app",
     credentials: true
-}))
+}));
+
 
 
 
