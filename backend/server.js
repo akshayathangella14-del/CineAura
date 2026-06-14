@@ -33,7 +33,7 @@ app.use(cors({
     credentials: true
 }))
 
-app.options('*', cors())
+
 
 //body parser middleware
 app.use(exp.json())
