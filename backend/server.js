@@ -22,7 +22,6 @@ import { homeApp } from './APIs/HomeAPI.js'
 import { userInsightApp } from './APIs/UserInsightAPI.js'
 import { profileIdentityApp } from './APIs/ProfileIdentityAPI.js'
 import { recommendationAnalyticsApp } from './APIs/RecommendationAnalyticsAPI.js'
-import { tensorFlowApp } from './APIs/TensorFlowAPI.js'
 import { notFound } from './middlewares/notFound.js'
 import { errorHandler } from './middlewares/errorHandler.js'
 
@@ -73,7 +72,6 @@ app.use(interactionApp)
 app.use(homeApp)
 app.use(userInsightApp)
 app.use(recommendationAnalyticsApp)
-app.use(tensorFlowApp)
 
 //error middlewares
 app.use(notFound)
