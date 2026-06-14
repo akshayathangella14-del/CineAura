@@ -10,6 +10,7 @@ import SearchBar from '../common/SearchBar'
 import useUiStore from '../../store/uiStore'
 import useAuthStore from '../../store/authStore'
 import { ROUTES } from '../../utils/constants'
+import { resolveAvatarUrl } from '../../utils/avatarUtils'
 import './TopNavbar.css'
 
 const TopNavbar = () => {
@@ -41,7 +42,8 @@ const TopNavbar = () => {
   }
 
   // Determine avatar source from backend UserModel fields
-  const avatarSrc = user?.avatarImage || user?.profileImageUrl || null
+  const rawAvatarSrc = user?.avatarImage || user?.profileImageUrl || null
+  const avatarSrc = resolveAvatarUrl(rawAvatarSrc)
   const userName = user?.username || user?.name || 'User'
 
   return (
