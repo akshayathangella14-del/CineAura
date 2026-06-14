@@ -42,6 +42,11 @@ app.use(cors({
 app.use(exp.json())
 app.use(cookieParser())
 
+app.use((req, res, next) => {
+    console.log("REQUEST:", req.method, req.originalUrl)
+    next()
+})
+
 //root route
 app.get("/", (req, res) => {
     res.status(200).json({ message: "Welcome to CineAura API" })
