@@ -55,6 +55,12 @@ app.get("/render-check", (req, res) => {
     })
 })
 
+app.get("/version", (req, res) => {
+    res.json({
+        version: "2026-06-14-test"
+    })
+})
+
 //health route
 app.get("/health", (req, res) => {
     res.status(200).json({ message: "CineAura server is running" })
