@@ -47,6 +47,14 @@ app.get("/", (req, res) => {
     res.status(200).json({ message: "Welcome to CineAura API" })
 })
 
+//render test route
+app.get("/render-check", (req, res) => {
+    res.status(200).json({
+        status: "render-check-ok",
+        timestamp: Date.now()
+    })
+})
+
 //health route
 app.get("/health", (req, res) => {
     res.status(200).json({ message: "CineAura server is running" })
