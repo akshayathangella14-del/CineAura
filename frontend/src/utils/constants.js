@@ -140,3 +140,4 @@ export const AVATAR_CATEGORIES = [
   'Cinema',
   'Fantasy',
 ]
+
