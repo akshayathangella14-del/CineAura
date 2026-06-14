@@ -52,6 +52,13 @@ app.get("/", (req, res) => {
     res.status(200).json({ message: "Welcome to CineAura API" })
 })
 
+app.get("/test123", (req, res) => {
+    res.json({
+        success: true,
+        route: "/test123"
+    })
+})
+
 //render test route
 app.get("/render-check", (req, res) => {
     res.status(200).json({
