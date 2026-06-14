@@ -1,0 +1,7 @@
+@baseUrl = http://localhost:5000
+
+### Aura Profile
+GET {{baseUrl}}/aura/profile
+
+### Aura Insights
+GET {{baseUrl}}/aura/insights

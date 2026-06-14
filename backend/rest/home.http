@@ -1,0 +1,4 @@
+@baseUrl = http://localhost:5000
+
+### Home Sections
+GET {{baseUrl}}/home/sections

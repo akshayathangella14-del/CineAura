@@ -1,0 +1,298 @@
+/* ═══════════════════════════════════════
+   CineAura Top Navbar Styles
+   Fixed top bar — premium streaming feel
+   ═══════════════════════════════════════ */
+
+.top-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  background: rgba(11, 15, 26, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(38, 48, 65, 0.4);
+  z-index: 200;
+  box-shadow:
+  0 8px 40px rgba(0,0,0,.35),
+  0 0 30px rgba(124,58,237,.08);
+}
+
+.top-navbar::after {
+  content: '';
+  position: absolute;
+  left: 15%;
+  right: 15%;
+  bottom: 0;
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(124,58,237,.6),
+      transparent
+    );
+}
+
+/* ── Left ───────────────────────────── */
+.top-navbar__left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.top-navbar__menu-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: var(--ca-text-secondary, #94A3B8);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.top-navbar__menu-btn:hover {
+  background: rgba(148, 163, 184, 0.1);
+  color: var(--ca-text, #F8FAFC);
+}
+
+/* ── Center ─────────────────────────── */
+.top-navbar__center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  max-width: 480px;
+  margin: 0 1.5rem;
+}
+
+/* ── Right ──────────────────────────── */
+.top-navbar__right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.top-navbar__action-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: var(--ca-text-secondary, #94A3B8);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.top-navbar__action-btn:hover {
+  background: rgba(148, 163, 184, 0.1);
+  color: var(--ca-text, #F8FAFC);
+}
+
+.top-navbar__badge {
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #7C3AED;
+  border: 2px solid rgba(11, 15, 26, 0.85);
+}
+
+/* ── Avatar ─────────────────────────── */
+.top-navbar__avatar-wrapper {
+  position: relative;
+}
+
+.top-navbar__avatar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: visible;
+  cursor: pointer;
+  margin-left: 0.25rem;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+.top-navbar__avatar-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.top-navbar__avatar-fallback {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(124, 58, 237, 0.2);
+  color: #A855F7;
+  border: 1.5px solid rgba(124, 58, 237, 0.4);
+}
+
+.top-navbar__avatar-ring {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: linear-gradient(135deg, #7C3AED, #A855F7) border-box;
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.top-navbar__avatar:hover .top-navbar__avatar-ring {
+  opacity: 1;
+}
+
+/* ── Dropdown Menu ──────────────────── */
+.top-navbar__dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 220px;
+  background: rgba(13, 17, 23, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(38, 48, 65, 0.6);
+  border-radius: 12px;
+  padding: 0.5rem 0;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  z-index: 250;
+}
+
+.top-navbar__dropdown-header {
+  padding: 0.625rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.top-navbar__dropdown-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ca-text, #F8FAFC);
+}
+
+.top-navbar__dropdown-email {
+  font-size: 0.75rem;
+  color: var(--ca-text-secondary, #94A3B8);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.top-navbar__dropdown-divider {
+  height: 1px;
+  background: rgba(38, 48, 65, 0.5);
+  margin: 0.25rem 0;
+}
+
+.top-navbar__dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--ca-text-secondary, #94A3B8);
+  text-decoration: none;
+  border: none;
+  background: none;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: var(--ca-font, 'Inter', sans-serif);
+}
+
+.top-navbar__dropdown-item:hover {
+  color: var(--ca-text, #F8FAFC);
+  background: rgba(124, 58, 237, 0.08);
+}
+
+.top-navbar__dropdown-item--danger:hover {
+  color: var(--ca-error, #EF4444);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+/* ── Auth Links ─────────────────────── */
+.top-navbar__auth-links {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.top-navbar__login-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--ca-text, #F8FAFC);
+  background: linear-gradient(135deg, #7C3AED, #A855F7);
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+
+.top-navbar__login-btn:hover {
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.35);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* ── Responsive ─────────────────────── */
+@media (max-width: 768px) {
+  .top-navbar {
+    padding: 0 1rem;
+    height: 56px;
+  }
+
+  .top-navbar__center {
+    margin: 0 0.75rem;
+  }
+
+  .top-navbar__login-btn {
+    padding: 0.4rem 1rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-navbar__center {
+    margin: 0 0.5rem;
+  }
+}
+

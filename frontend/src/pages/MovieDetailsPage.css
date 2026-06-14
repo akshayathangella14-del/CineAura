@@ -1,0 +1,322 @@
+/* CineAura Movie Details — Phase 1 Foundation */
+
+.md-section-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.movie-details-page {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.movie-details__btn-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: md-spin 1s linear infinite;
+}
+
+@keyframes md-spin {
+  to { transform: rotate(360deg); }
+}
+
+.movie-details__error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  color: var(--error);
+  gap: 1rem;
+}
+
+.movie-details__error button {
+  padding: 0.75rem 1.5rem;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Hero */
+.md-hero {
+  position: relative;
+  min-height: 78vh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.md-hero__backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  filter: brightness(0.55) saturate(1.05);
+}
+
+.md-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(9, 9, 11, 0.15) 0%, rgba(9, 9, 11, 0.55) 45%, rgba(9, 9, 11, 0.98) 100%),
+    linear-gradient(90deg, rgba(9, 9, 11, 0.92) 0%, rgba(9, 9, 11, 0.45) 55%, rgba(9, 9, 11, 0.2) 100%),
+    radial-gradient(circle at 70% 20%, rgba(124, 58, 237, 0.18), transparent 50%);
+}
+
+.md-hero__content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 2rem 5% 3rem;
+}
+
+.md-hero__breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.md-hero__breadcrumb a {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.md-hero__breadcrumb a:hover {
+  color: #c4b5fd;
+}
+
+.md-hero__layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 2.5rem;
+  align-items: end;
+}
+
+.md-hero__poster-wrap {
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow:
+    0 28px 60px rgba(0, 0, 0, 0.65),
+    0 0 40px rgba(124, 58, 237, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.md-hero__poster,
+.md-hero__poster-fallback {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  display: block;
+  object-fit: cover;
+}
+
+.md-hero__poster-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 3rem;
+  color: var(--text-secondary);
+}
+
+.md-hero__title {
+  margin: 0 0 0.85rem;
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.05;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.md-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  color: rgba(248, 250, 252, 0.88);
+  font-size: 0.95rem;
+}
+
+.md-hero__meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.md-hero__genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-bottom: 1.25rem;
+}
+
+.md-hero__genre {
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.md-hero__ratings {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.md-hero__rating-card,
+.md-hero__stat-card {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+.md-hero__rating-card strong,
+.md-hero__stat-card strong {
+  display: block;
+  font-size: 1.05rem;
+  color: #fff;
+  line-height: 1.1;
+}
+
+.md-hero__rating-card span,
+.md-hero__stat-card span {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+}
+
+.md-hero__rating-card--community {
+  border-color: rgba(124, 58, 237, 0.3);
+  background: rgba(124, 58, 237, 0.1);
+}
+
+.md-hero__overview {
+  max-width: 760px;
+  margin: 0 0 1.5rem;
+  line-height: 1.75;
+  color: rgba(226, 232, 240, 0.88);
+  font-size: 1.02rem;
+}
+
+.md-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.md-hero__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.8rem 1.15rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.md-hero__btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: rgba(168, 85, 247, 0.35);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.md-hero__btn--primary {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.95), rgba(168, 85, 247, 0.9));
+  border-color: transparent;
+}
+
+.md-hero__btn--saved {
+  background: rgba(16, 185, 129, 0.18);
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.md-hero__btn:disabled {
+  opacity: 0.75;
+  cursor: wait;
+}
+
+/* Page body */
+.md-page-body {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 5% 4rem;
+}
+
+/* Responsive */
+@media (max-width: 960px) {
+  .md-hero {
+    min-height: auto;
+  }
+
+  .md-hero__layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .md-hero__poster-col {
+    max-width: 240px;
+  }
+
+  .md-hero__title {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .md-hero__content,
+  .md-page-body {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .md-hero__poster-col {
+    max-width: 200px;
+    margin: 0 auto;
+  }
+
+  .md-hero__info {
+    text-align: center;
+  }
+
+  .md-hero__meta,
+  .md-hero__genres,
+  .md-hero__ratings,
+  .md-hero__actions {
+    justify-content: center;
+  }
+
+  .md-hero__overview {
+    text-align: left;
+  }
+}

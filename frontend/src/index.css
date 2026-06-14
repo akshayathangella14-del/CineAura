@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════
+   CineAura Global Styles
+   Design System: UI_DESIGN_SYSTEM.md
+   Theme: Always Dark — No Light Mode
+   Font: Inter (loaded via index.html Google Fonts)
+   ═══════════════════════════════════════════════════ */
+
+/* CSS Custom Properties — CineAura Design Tokens */
+:root {
+  /* Backgrounds */
+  --ca-bg-dark: #09090b;
+  --ca-bg: #09090b;
+  --ca-surface: rgba(17, 24, 39, 0.6);
+  --ca-elevated: rgba(30, 41, 59, 0.6);
+
+  /* Brand Colors */
+  --ca-primary: #7c3aed;
+  --ca-accent: #8b5cf6;
+  --ca-neon: #a855f7;
+
+  /* Cinematic Glows */
+  --ca-glow-primary: 0 0 25px rgba(124, 58, 237, 0.4);
+  --ca-glow-accent: 0 0 20px rgba(139, 92, 246, 0.6);
+  --ca-hover-glow: 0 8px 30px rgba(124, 58, 237, 0.3);
+
+  /* Feedback */
+  --ca-success: #10b981;
+  --ca-warning: #fbbf24;
+  --ca-error: #ef4444;
+
+  /* Text */
+  --ca-text: #f8fafc;
+  --ca-text-secondary: #94a3b8;
+
+  /* Borders */
+  --ca-border: rgba(124, 58, 237, 0.2);
+  --ca-border-light: rgba(255, 255, 255, 0.1);
+
+  /* Typography */
+  --ca-font: 'Inter', sans-serif;
+
+  /* Compatibility Layer */
+
+--primary-accent: var(--ca-primary);
+
+--text-primary: var(--ca-text);
+
+--text-secondary: var(--ca-text-secondary);
+
+--surface-color: var(--ca-surface);
+
+--surface-elevated: var(--ca-elevated);
+
+--border-color: var(--ca-border);
+
+--success: var(--ca-success);
+
+--warning: var(--ca-warning);
+
+--error: var(--ca-error);
+}
+
+/* Global Reset & Base */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--ca-font);
+  background-color: var(--ca-bg);
+  color: var(--ca-text);
+  line-height: 1.5;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ca-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ca-elevated);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ca-border);
+}
+
+/* Links */
+a {
+  color: var(--ca-accent);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--ca-glow);
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Selection */
+::selection {
+  background-color: rgba(139, 92, 246, 0.3);
+  color: var(--ca-text);
+}
+
+/* Focus visible for accessibility */
+:focus-visible {
+  outline: 2px solid var(--ca-accent);
+  outline-offset: 2px;
+}
+
+/* App Container */
+#cineaura-app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

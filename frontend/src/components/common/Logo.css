@@ -1,0 +1,309 @@
+/* ═══════════════════════════════════════
+   CineAura Logo — Aura Reel
+   Symbol: a film reel disc with a glowing
+   core, trailing a film strip with glowing
+   perforation dots. Cinema, identity, light.
+   ═══════════════════════════════════════ */
+
+/* ── Base ───────────────────────────── */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none;
+  color: inherit;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ── Mark / Icon ────────────────────── */
+.logo__mark {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Ambient bloom — diffuse aura behind the mark.
+   Visible at rest with a slow breathing pulse, blooming
+   larger and brighter on hover. */
+.logo__ambient {
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at 42% 46%,
+    rgba(139, 107, 242, 0.38) 0%,
+    rgba(196, 166, 255, 0.18) 45%,
+    transparent 72%
+  );
+  filter: blur(11px);
+  pointer-events: none;
+  opacity: 0.55;
+  animation: ca-ambient-breathe 6s ease-in-out infinite;
+  transition: opacity 0.6s ease, filter 0.6s ease;
+}
+
+.logo:hover .logo__ambient {
+  opacity: 1;
+  filter: blur(14px);
+  animation-duration: 2.2s;
+}
+
+@keyframes ca-ambient-breathe {
+  0%, 100% { opacity: 0.4; transform: scale(0.96); }
+  50%       { opacity: 0.7; transform: scale(1.08); }
+}
+
+/* ── Keyframes ──────────────────────── */
+
+/* Core breathe — the light at the reel's heart, slow and alive.
+   More pronounced than before so it reads at a glance. */
+@keyframes ca-core-breathe {
+  0%, 100% { opacity: 0.55; transform: scale(0.9); }
+  50%       { opacity: 1;    transform: scale(1.25); }
+}
+
+/* Core hub — a quieter companion pulse, slightly out of phase */
+@keyframes ca-core-pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.08); }
+}
+
+/* Sheen — a soft band of light sweeps across the reel disc
+   on a slow loop, like light catching glass */
+@keyframes ca-sheen-sweep {
+  0%   { transform: translateX(0); }
+  45%  { transform: translateX(56px); }
+  100% { transform: translateX(56px); }
+}
+
+/* Spool windows — the reel slowly winds, like film advancing
+   through a projector. Continuous, unhurried. */
+@keyframes ca-reel-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Film strip — a noticeable sway, as if the trailing strip is
+   catching slack while the reel turns */
+@keyframes ca-strip-sway {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50%       { transform: translate(1px, -0.8px) rotate(3deg); }
+}
+
+/* Perforation dots — light passing through the projector gate,
+   each dot catches the glow in sequence */
+@keyframes ca-dot-glow {
+  0%, 100% { opacity: 0.25; transform: scale(0.8); }
+  50%       { opacity: 1;    transform: scale(1.35); }
+}
+
+/* Sparkles — small stars that twinkle in and out, each on its
+   own staggered rhythm, like the aura popping with discovery */
+@keyframes ca-sparkle-twinkle {
+  0%, 100% { opacity: 0;   transform: scale(0.3) rotate(0deg); }
+  50%       { opacity: 1;   transform: scale(1) rotate(20deg); }
+}
+
+.logo__svg {
+  position: relative;
+  z-index: 1;
+  display: block;
+  overflow: visible;
+}
+
+.logo__core-glow {
+  transform-origin: 16px 16px;
+  transform-box: fill-box;
+  animation: ca-core-breathe 6s ease-in-out infinite;
+}
+
+.logo__core {
+  transform-origin: 16px 16px;
+  transform-box: fill-box;
+  animation: ca-core-pulse 6s ease-in-out infinite;
+  animation-delay: -1.5s;
+}
+
+.logo__spool-group {
+  transform-origin: 16px 16px;
+  transform-box: fill-box;
+  animation: ca-reel-spin 8s linear infinite;
+}
+
+.logo__sheen {
+  transform-box: fill-box;
+  animation: ca-sheen-sweep 5s ease-in-out infinite;
+}
+
+.logo__strip {
+  transform-origin: 18px 14px;
+  transform-box: fill-box;
+  animation: ca-strip-sway 5s ease-in-out infinite;
+}
+
+.logo__strip-dot {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ca-dot-glow 2.4s ease-in-out infinite;
+}
+
+.logo__strip-dot:nth-child(1) { animation-delay: 0s; }
+.logo__strip-dot:nth-child(2) { animation-delay: 0.3s; }
+.logo__strip-dot:nth-child(3) { animation-delay: 0.6s; }
+.logo__strip-dot:nth-child(4) { animation-delay: 0.9s; }
+
+.logo__sparkle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ca-sparkle-twinkle 3.6s ease-in-out infinite;
+}
+
+.logo__sparkle-1 { animation-delay: 0s; }
+.logo__sparkle-2 { animation-delay: 1.1s; }
+.logo__sparkle-3 { animation-delay: 2.2s; }
+.logo__sparkle-4 { animation-delay: 0.6s; }
+
+/* On hover, the reel winds faster and the light pulses quicker —
+   like the projector kicking into gear */
+.logo:hover .logo__core-glow,
+.logo:hover .logo__core {
+  animation-duration: 2.2s;
+}
+
+.logo:hover .logo__spool-group {
+  animation-duration: 3s;
+}
+
+.logo:hover .logo__sheen {
+  animation-duration: 1.6s;
+}
+
+.logo:hover .logo__strip {
+  animation-duration: 1.8s;
+}
+
+.logo:hover .logo__strip-dot {
+  animation-duration: 1s;
+}
+
+.logo:hover .logo__sparkle {
+  animation-duration: 1.4s;
+}
+
+/* ── Text ───────────────────────────── */
+.logo__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.logo__name {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+}
+
+/* "Cine" — soft near-white */
+.logo__name-cine {
+  color: #EDE9F7;
+}
+
+/* "Aura" — quiet violet, used with restraint */
+.logo__name-aura {
+  color: #B7A0F5;
+}
+
+.logo__tagline {
+  color: rgba(148, 163, 184, 0.7);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  margin-top: 3px;
+}
+
+/* ── Sizes ──────────────────────────────────────────────────
+   The mark's viewBox is -4 -4 48 40 (1.2:1 aspect, reel disc +
+   trailing strip + sparkle margin), so width is set to 1.2x
+   the height to preserve proportions without distortion. ── */
+
+/* sm — 24px icon */
+.logo--sm {
+  gap: 0.5rem;
+}
+.logo--sm .logo__svg {
+  width: 28.8px;
+  height: 24px;
+}
+.logo--sm .logo__name {
+  font-size: 0.9375rem;
+}
+.logo--sm .logo__tagline {
+  font-size: 0.5625rem;
+  letter-spacing: 0.02em;
+}
+
+/* md — 32px icon */
+.logo--md .logo__svg {
+  width: 38.4px;
+  height: 32px;
+}
+.logo--md .logo__name {
+  font-size: 1.1875rem;
+}
+.logo--md .logo__tagline {
+  font-size: 0.6875rem;
+}
+
+/* lg — 48px icon */
+.logo--lg {
+  gap: 0.875rem;
+}
+.logo--lg .logo__svg {
+  width: 57.6px;
+  height: 48px;
+}
+.logo--lg .logo__name {
+  font-size: 1.75rem;
+}
+.logo--lg .logo__tagline {
+  font-size: 0.8125rem;
+  margin-top: 4px;
+}
+
+/* xl — optional hero size */
+.logo--xl {
+  gap: 1.125rem;
+}
+.logo--xl .logo__svg {
+  width: 76.8px;
+  height: 64px;
+}
+.logo--xl .logo__name {
+  font-size: 2.25rem;
+}
+.logo--xl .logo__tagline {
+  font-size: 0.9375rem;
+  margin-top: 5px;
+}
+
+/* ── Reduced motion ─────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .logo__core-glow,
+  .logo__core,
+  .logo__spool-group,
+  .logo__strip,
+  .logo__strip-dot,
+  .logo__sheen,
+  .logo__ambient {
+    animation: none;
+  }
+
+  .logo__sparkle {
+    animation: none;
+    opacity: 0;
+  }
+}

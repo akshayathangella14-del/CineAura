@@ -1,0 +1,4 @@
+@baseUrl = http://localhost:5000
+
+### Search Suggestions
+GET {{baseUrl}}/movies/search/suggestions?q=thriller&limit=5

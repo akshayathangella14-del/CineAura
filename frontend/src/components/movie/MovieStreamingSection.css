@@ -1,0 +1,71 @@
+.movie-streaming-section {
+  margin: 3rem 0;
+}
+
+.movie-streaming-section__subtitle {
+  margin: 0.35rem 0 1.25rem;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+}
+
+.movie-streaming-section__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.movie-streaming-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.1rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.movie-streaming-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(168, 85, 247, 0.32);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+}
+
+.movie-streaming-card__logo-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.movie-streaming-card__logo,
+.movie-streaming-card__logo-fallback {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.movie-streaming-card__logo-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+}
+
+.movie-streaming-card__name {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.movie-streaming-card__type {
+  margin: 0.2rem 0 0;
+  font-size: 0.76rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+}

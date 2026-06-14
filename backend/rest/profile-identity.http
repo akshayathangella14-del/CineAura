@@ -1,0 +1,36 @@
+### Profile Identity API (requires auth cookie or Bearer token)
+
+### Get profile (extended identity payload)
+GET http://localhost:5000/profile
+
+### Titles
+GET http://localhost:5000/profile/identity/titles
+
+PUT http://localhost:5000/profile/identity/titles/equip
+Content-Type: application/json
+
+{
+  "titleId": "explorer"
+}
+
+PUT http://localhost:5000/profile/identity/titles/unequip
+
+### Badges
+GET http://localhost:5000/profile/identity/badges
+
+GET http://localhost:5000/profile/identity/badges/unlocked
+
+PUT http://localhost:5000/profile/identity/badges/equip
+Content-Type: application/json
+
+{
+  "badgeId": "member_badge"
+}
+
+PUT http://localhost:5000/profile/identity/badges/unequip
+
+### Achievements
+GET http://localhost:5000/profile/identity/achievements
+
+### Avatars (unlock-aware catalog)
+GET http://localhost:5000/profile/identity/avatars

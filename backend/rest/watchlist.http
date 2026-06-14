@@ -1,0 +1,16 @@
+@baseUrl = http://localhost:5000
+@movieId = 550
+
+### Add To Watchlist
+POST {{baseUrl}}/watchlist
+Content-Type: application/json
+
+{
+  "movieId": "{{movieId}}"
+}
+
+### Get Watchlist
+GET {{baseUrl}}/watchlist
+
+### Remove From Watchlist
+DELETE {{baseUrl}}/watchlist/{{movieId}}

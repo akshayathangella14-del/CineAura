@@ -1,0 +1,105 @@
+/* CineAura See All Page Styles */
+
+.see-all-page {
+  padding: 4rem 5%;
+  min-height: 100vh;
+}
+
+.see-all-page__header {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.see-all-page__title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.see-all-page__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: rgba(139, 92, 246, 0.1);
+  color: var(--primary-accent);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.see-all-page__title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.02em;
+}
+
+.see-all-page__subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.see-all-page__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 2rem;
+}
+
+.see-all-page__skeleton {
+  width: 100%;
+  aspect-ratio: 2/3;
+  background: var(--surface-elevated);
+  border-radius: 12px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 0.3; }
+  100% { opacity: 0.6; }
+}
+
+.see-all-page__error,
+.see-all-page__empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--surface-color);
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+
+.see-all-page__retry-btn {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--primary-accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.see-all-page__retry-btn:hover {
+  background: var(--primary-glow);
+}
+
+@media (max-width: 768px) {
+  .see-all-page {
+    padding: 2rem 5%;
+  }
+
+  .see-all-page__title {
+    font-size: 2rem;
+  }
+
+  .see-all-page__grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+  }
+}

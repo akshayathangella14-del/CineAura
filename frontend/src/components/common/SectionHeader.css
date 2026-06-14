@@ -1,0 +1,143 @@
+/* ═══════════════════════════════════════
+   CineAura Section Header Styles
+   ═══════════════════════════════════════ */
+
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.section-header__left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* ── Icon ───────────────────────────── */
+.section-header__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(124,58,237,.18),
+      rgba(168,85,247,.08)
+    );
+
+  color: #A855F7;
+
+  border: 1px solid rgba(124,58,237,.22);
+
+  box-shadow:
+    0 0 20px rgba(124,58,237,.15);
+
+  flex-shrink: 0;
+}
+
+/* ── Text ───────────────────────────── */
+.section-header__title {
+  font-size: 1.65rem;
+
+  font-weight: 800;
+
+  color: #F8FAFC;
+
+  letter-spacing: -0.03em;
+
+  line-height: 1.1;
+
+  text-shadow:
+    0 0 20px rgba(124,58,237,.08);
+}
+
+.section-header__subtitle {
+  font-size: 0.92rem;
+
+  color: rgba(148,163,184,.88);
+
+  margin-top: 0.25rem;
+
+  line-height: 1.4;
+}
+
+/* ── Link ───────────────────────────── */
+.section-header__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  padding: 0.55rem 0.9rem;
+
+  border-radius: 12px;
+
+  background:
+    rgba(255,255,255,.03);
+
+  border:
+    1px solid rgba(255,255,255,.06);
+
+  color: #CBD5E1;
+
+  text-decoration: none;
+
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  transition: all .25s ease;
+}
+
+.section-header__link:hover {
+  color: #fff;
+
+  border-color:
+    rgba(124,58,237,.4);
+
+  background:
+    rgba(124,58,237,.12);
+
+  box-shadow:
+    0 0 18px rgba(124,58,237,.18);
+}
+
+.section-header__link svg {
+  transition: transform 0.2s ease;
+}
+
+.section-header__link:hover svg {
+  transform: translateX(2px);
+}
+
+/* ── Responsive ─────────────────────── */
+@media (max-width: 768px) {
+  .section-header__title {
+    font-size: 1.125rem;
+  }
+
+  .section-header__icon {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.section-header__link:hover {
+  color: #fff;
+
+  border-color:
+    rgba(124,58,237,.4);
+
+  background:
+    rgba(124,58,237,.12);
+
+  box-shadow:
+    0 0 18px rgba(124,58,237,.18);
+}

@@ -1,0 +1,23 @@
+@baseUrl = http://localhost:5000
+@movieId = 550
+
+### Personalized Recommendations
+GET {{baseUrl}}/recommendations
+
+### Similar Movies
+GET {{baseUrl}}/recommendations/similar/{{movieId}}
+
+### Trending Recommendations
+GET {{baseUrl}}/recommendations/trending
+
+### For You Recommendations
+GET {{baseUrl}}/recommendations/for-you
+
+### Add Recommendation Interaction
+POST {{baseUrl}}/interactions
+Content-Type: application/json
+
+{
+  "movieId": "{{movieId}}",
+  "interactionType": "viewed"
+}

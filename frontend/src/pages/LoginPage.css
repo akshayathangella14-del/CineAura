@@ -1,0 +1,185 @@
+/* ═══════════════════════════════════════
+   CineAura Login Page Styles
+   Glassmorphic form — dark premium
+   ═══════════════════════════════════════ */
+
+.login-page {
+  width: 100%;
+}
+
+/* ── Header ─────────────────────────── */
+.login-page__header {
+  margin-bottom: 2rem;
+}
+
+.login-page__title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--ca-text, #F8FAFC);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.35rem;
+}
+
+.login-page__subtitle {
+  font-size: 0.875rem;
+  color: var(--ca-text-secondary, #94A3B8);
+}
+
+/* ── Form ───────────────────────────── */
+.login-page__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ── Field ──────────────────────────── */
+.login-page__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.login-page__label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--ca-text-secondary, #94A3B8);
+}
+
+.login-page__input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.login-page__input-icon {
+  position: absolute;
+  left: 0.875rem;
+  color: rgba(148, 163, 184, 0.5);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.login-page__input {
+  width: 100%;
+  padding: 0.7rem 0.875rem 0.7rem 2.75rem;
+  font-size: 0.875rem;
+  font-family: var(--ca-font, 'Inter', sans-serif);
+  color: var(--ca-text, #F8FAFC);
+  background: rgba(17, 24, 39, 0.6);
+  border: 1px solid rgba(38, 48, 65, 0.6);
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.25s ease;
+  caret-color: #A855F7;
+}
+
+.login-page__input:focus {
+  border-color: rgba(124, 58, 237, 0.5);
+  background: rgba(17, 24, 39, 0.8);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+.login-page__input::placeholder {
+  color: rgba(148, 163, 184, 0.4);
+}
+
+.login-page__toggle-pw {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: rgba(148, 163, 184, 0.5);
+  cursor: pointer;
+  display: flex;
+  padding: 0.25rem;
+  transition: color 0.2s;
+}
+
+.login-page__toggle-pw:hover {
+  color: var(--ca-text, #F8FAFC);
+}
+
+/* ── Error ──────────────────────────── */
+.login-page__error {
+  font-size: 0.8125rem;
+  color: var(--ca-error, #EF4444);
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+}
+
+/* ── Submit ─────────────────────────── */
+.login-page__submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: var(--ca-font, 'Inter', sans-serif);
+  color: #F8FAFC;
+  background: linear-gradient(135deg, #7C3AED, #A855F7);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.login-page__submit:hover:not(:disabled) {
+  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.35);
+  transform: translateY(-1px);
+}
+
+.login-page__submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* ── Spinner ────────────────────────── */
+.login-page__spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #F8FAFC;
+  border-radius: 50%;
+  animation: login-spin 0.6s linear infinite;
+}
+
+@keyframes login-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Footer ─────────────────────────── */
+.login-page__footer {
+  text-align: center;
+  margin-top: 1.75rem;
+  font-size: 0.8125rem;
+  color: var(--ca-text-secondary, #94A3B8);
+}
+
+.login-page__link {
+  color: #A855F7;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.login-page__link:hover {
+  color: #C084FC;
+}
+
+.journey-page__story-summary {
+  margin-top: 1rem;
+  color: rgba(248, 250, 252, 0.78);
+  font-size: 1rem;
+  line-height: 1.7;
+  max-width: 760px;
+}
+
+.journey-page__hero strong {
+  color: #ffffff;
+  font-weight: 700;
+}

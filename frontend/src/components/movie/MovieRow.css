@@ -1,0 +1,159 @@
+/* ═══════════════════════════════════════
+   CineAura Movie Row Styles — v5
+   Horizontal scroll with edge fades
+   ═══════════════════════════════════════ */
+
+.movie-row {
+  position: relative;
+  isolation: isolate;
+  z-index: 0;
+}
+
+.movie-row:has(.movie-card--active) {
+  z-index: 50;
+}
+
+/* ── Track ──────────────────────────── */
+.movie-row__track {
+  display: flex;
+  gap: 0.85rem;
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-snap-type: x proximity;
+  /* Vertical padding so pop-out cards have room to expand upward */
+  padding: 3.5rem 1.2rem 2rem;
+  scrollbar-width: none;
+}
+
+.movie-row__track::-webkit-scrollbar {
+  display: none;
+}
+
+.movie-row__track > * {
+  scroll-snap-align: start;
+}
+
+/* ── Scroll Arrows ──────────────────── */
+.movie-row__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(38, 48, 65, 0.5);
+  background: rgba(13, 17, 23, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #94a3b8;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+
+.movie-row:hover .movie-row__arrow {
+  opacity: 1;
+}
+
+.movie-row__arrow:hover {
+  background: rgba(124, 58, 237, 0.22);
+  border-color: rgba(124, 58, 237, 0.55);
+  box-shadow:
+    0 0 18px rgba(124, 58, 237, 0.25),
+    0 0 40px rgba(124, 58, 237, 0.1);
+  color: #fff;
+}
+
+.movie-row__arrow--left {
+  left: -4px;
+}
+
+.movie-row__arrow--right {
+  right: -4px;
+}
+
+/* ── Edge Fades ─────────────────────── */
+.movie-row__fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.movie-row__fade--left {
+  left: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(11, 15, 26, 1) 0%,
+    rgba(11, 15, 26, 0.9) 40%,
+    transparent 100%
+  );
+}
+
+.movie-row__fade--right {
+  right: 0;
+  background: linear-gradient(
+    -90deg,
+    rgba(11, 15, 26, 1) 0%,
+    rgba(11, 15, 26, 0.9) 40%,
+    transparent 100%
+  );
+}
+
+/* ── Empty State ────────────────────── */
+.movie-row__empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  border-radius: 12px;
+  border: 1px dashed rgba(38, 48, 65, 0.5);
+  color: #94a3b8;
+  font-size: 0.875rem;
+}
+
+/* ── Dim siblings when one card is active ── */
+.movie-row:has(.movie-card--active) .movie-card {
+  opacity: 0.45;
+  transition: opacity 0.22s ease;
+}
+
+.movie-row:has(.movie-card--active) .movie-card--active {
+  opacity: 1;
+}
+
+/* ── Subtle ambient glow on the row ── */
+.movie-row::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 50% 60%,
+    rgba(124, 58, 237, 0.03),
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ── Responsive ─────────────────────── */
+@media (max-width: 768px) {
+  .movie-row__arrow {
+    display: none;
+  }
+
+  .movie-row__fade {
+    width: 20px;
+  }
+
+  .movie-row__track {
+    gap: 0.6rem;
+    padding: 2rem 0.8rem 1.5rem;
+  }
+}

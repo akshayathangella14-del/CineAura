@@ -1,0 +1,12 @@
+@baseUrl = http://localhost:5000
+
+### Get Avatars
+GET {{baseUrl}}/avatars
+
+### Update Profile Avatar
+PUT {{baseUrl}}/profile/avatar
+Content-Type: application/json
+
+{
+  "avatarId": "avatar1"
+}

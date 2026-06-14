@@ -1,0 +1,14 @@
+@baseUrl = http://localhost:5000
+@movieId = 550
+
+### Recommendation Narrative
+GET {{baseUrl}}/narrative/recommendation/{{movieId}}
+
+### Journey Narrative
+GET {{baseUrl}}/narrative/journey/{{movieId}}
+
+### Aura Narrative
+GET {{baseUrl}}/narrative/aura
+
+### Perfect Picks Narrative
+GET {{baseUrl}}/narrative/perfect-picks

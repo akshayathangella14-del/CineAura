@@ -1,0 +1,35 @@
+@baseUrl = http://localhost:5000
+@userId = paste_user_id_here
+@reviewId = paste_review_id_here
+
+### Dashboard
+GET {{baseUrl}}/admin/dashboard
+
+### Get Users
+GET {{baseUrl}}/admin/users
+
+### Get Movies
+GET {{baseUrl}}/admin/movies?page=1&limit=10
+
+### Get Reviews
+GET {{baseUrl}}/admin/reviews?page=1&limit=10
+
+### Update User Status
+PATCH {{baseUrl}}/admin/users/{{userId}}/status
+Content-Type: application/json
+
+{
+  "status": "BLOCKED"
+}
+
+### Delete Review
+DELETE {{baseUrl}}/admin/reviews/{{reviewId}}
+
+### Admin Movie Sync
+POST {{baseUrl}}/admin/movies/sync
+Content-Type: application/json
+
+{
+  "type": "trending",
+  "page": 1
+}

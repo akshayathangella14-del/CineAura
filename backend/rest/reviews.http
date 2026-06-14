@@ -1,0 +1,28 @@
+@baseUrl = http://localhost:5000
+@movieId = 550
+@reviewId = paste_review_id_here
+
+### Add Review
+POST {{baseUrl}}/reviews
+Content-Type: application/json
+
+{
+  "movieId": "{{movieId}}",
+  "rating": 5,
+  "reviewText": "Excellent movie"
+}
+
+### Get Movie Reviews
+GET {{baseUrl}}/reviews/{{movieId}}
+
+### Update Review
+PUT {{baseUrl}}/reviews/{{reviewId}}
+Content-Type: application/json
+
+{
+  "rating": 4,
+  "reviewText": "Still a strong movie"
+}
+
+### Delete Review
+DELETE {{baseUrl}}/reviews/{{reviewId}}

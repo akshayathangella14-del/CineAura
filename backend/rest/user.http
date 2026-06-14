@@ -1,0 +1,34 @@
+@baseUrl = http://localhost:5000
+
+### Register User
+POST {{baseUrl}}/register
+Content-Type: application/json
+
+{
+  "name": "Demo User",
+  "email": "demo@example.com",
+  "password": "demo123"
+}
+
+### Login User
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+  "email": "demo@example.com",
+  "password": "demo123"
+}
+
+### Get Profile
+GET {{baseUrl}}/profile
+
+### Update Profile
+PUT {{baseUrl}}/profile
+Content-Type: application/json
+
+{
+  "name": "Demo CineAura User"
+}
+
+### Logout
+POST {{baseUrl}}/logout

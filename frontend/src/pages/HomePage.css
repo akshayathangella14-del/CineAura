@@ -1,0 +1,66 @@
+/* ═══════════════════════════════════════
+   CineAura Home Page Styles
+   ═══════════════════════════════════════ */
+
+.home-page {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* ── Sections ───────────────────────── */
+.home-page__section {
+  padding-top: 1.5rem;
+  overflow: visible;
+}
+
+.home-page__section--last {
+  padding-bottom: 2rem;
+}
+
+/* ── Continue Watching Placeholder ──── */
+.home-page__continue-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 3rem 2rem;
+  border-radius: 14px;
+  border: 1px dashed rgba(38, 48, 65, 0.5);
+  background: rgba(17, 24, 39, 0.25);
+  text-align: center;
+}
+
+.home-page__continue-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  background: rgba(124, 58, 237, 0.08);
+  color: rgba(168, 85, 247, 0.5);
+}
+
+.home-page__continue-text {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--ca-text-secondary, #94A3B8);
+}
+
+.home-page__continue-hint {
+  font-size: 0.8125rem;
+  color: rgba(148, 163, 184, 0.5);
+}
+
+/* ── Responsive ─────────────────────── */
+@media (max-width: 768px) {
+  .home-page__section {
+    padding-top: 1rem;
+  }
+
+  .home-page__continue-placeholder {
+    padding: 2rem 1.5rem;
+  }
+}

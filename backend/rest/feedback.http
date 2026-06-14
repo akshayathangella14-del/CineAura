@@ -1,0 +1,14 @@
+@baseUrl = http://localhost:5000
+@movieId = 550
+
+### Add Movie Feedback
+POST {{baseUrl}}/feedback/movie
+Content-Type: application/json
+
+{
+  "movieId": "{{movieId}}",
+  "feedback": "PERFECT_MATCH"
+}
+
+### Feedback History
+GET {{baseUrl}}/feedback/history

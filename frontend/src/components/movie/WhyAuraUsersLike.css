@@ -1,0 +1,41 @@
+.why-aura-users {
+  margin: 2.5rem 0;
+  padding: 1.5rem 1.75rem;
+  border-radius: 18px;
+  border: 1px dashed rgba(124, 58, 237, 0.35);
+  background: rgba(124, 58, 237, 0.05);
+}
+
+.why-aura-users__header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--primary-accent);
+}
+
+.why-aura-users__header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--text-primary);
+}
+
+.why-aura-users__note {
+  margin: 0 0 1rem;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+}
+
+.why-aura-users__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.why-aura-users__chip {
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.85rem;
+}

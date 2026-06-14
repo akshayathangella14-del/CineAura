@@ -1,0 +1,52 @@
+/* ═══════════════════════════════════════
+   CineAura Main Layout Styles
+   App shell — navbar + content
+   ═══════════════════════════════════════ */
+
+.main-layout {
+  background:
+    radial-gradient(
+      circle at 50% -10%,
+      rgba(124,58,237,.22),
+      transparent 40%
+    ),
+
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(168,85,247,.08),
+      transparent 35%
+    ),
+
+    linear-gradient(
+      180deg,
+      #09090b 0%,
+      #0b1020 100%
+    );
+}
+
+/* ── Content Area ───────────────────── */
+.main-layout__content {
+  flex: 1;
+  padding-top: 64px; /* Clear fixed navbar */
+  min-height: 100vh;
+}
+
+.main-layout__page {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  min-height: calc(100vh - 64px);
+}
+
+/* ── Responsive ─────────────────────── */
+@media (max-width: 768px) {
+  .main-layout__content {
+    padding-top: 56px; /* Smaller navbar on mobile */
+  }
+
+  .main-layout__page {
+    padding: 1rem;
+    min-height: calc(100vh - 56px);
+  }
+}

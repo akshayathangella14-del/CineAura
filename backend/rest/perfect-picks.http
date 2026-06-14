@@ -1,0 +1,4 @@
+@baseUrl = http://localhost:5000
+
+### Perfect Picks
+GET {{baseUrl}}/perfect-picks

@@ -1,0 +1,138 @@
+/* ═══════════════════════════════════════
+   CineAura Loading Skeleton Styles
+   Shimmer effect — cinematic dark theme
+   ═══════════════════════════════════════ */
+
+/* ── Shimmer Animation ──────────────── */
+@keyframes skeleton-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* ── Base ───────────────────────────── */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.skeleton__shimmer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(124, 58, 237, 0.04) 40%,
+    rgba(168, 85, 247, 0.06) 50%,
+    rgba(124, 58, 237, 0.04) 60%,
+    transparent 100%
+  );
+  animation: skeleton-shimmer 1.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ── Bars (text placeholders) ───────── */
+.skeleton__bar {
+  height: 14px;
+  border-radius: 6px;
+  background: rgba(26, 34, 51, 0.8);
+  margin-bottom: 0.5rem;
+}
+
+.skeleton__bar--lg {
+  height: 28px;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+}
+
+.skeleton__bar--md {
+  height: 16px;
+}
+
+.skeleton__bar--sm {
+  height: 12px;
+}
+
+.skeleton__pill {
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(26, 34, 51, 0.8);
+}
+
+/* ── Hero Variant ───────────────────── */
+.skeleton--hero {
+  width: 100%;
+  height: 520px;
+  background: linear-gradient(180deg, rgba(17, 24, 39, 0.5) 0%, #0B0F1A 100%);
+  border-radius: 16px;
+}
+
+.skeleton--hero__content {
+  position: absolute;
+  bottom: 3rem;
+  left: 3rem;
+  right: 40%;
+  z-index: 2;
+}
+
+.skeleton--hero__actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+/* ── Card Variant ───────────────────── */
+.skeleton-row {
+  display: flex;
+  gap: 1rem;
+  overflow: hidden;
+}
+
+.skeleton--card {
+  flex-shrink: 0;
+  width: 185px;
+  border-radius: 12px;
+  background: rgba(17, 24, 39, 0.6);
+  border: 1px solid rgba(38, 48, 65, 0.3);
+}
+
+.skeleton--card__poster {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  background: rgba(26, 34, 51, 0.8);
+  border-radius: 12px 12px 0 0;
+}
+
+.skeleton--card__info {
+  padding: 0.75rem;
+}
+
+/* ── Text Variant ───────────────────── */
+.skeleton-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* ── Responsive ─────────────────────── */
+@media (max-width: 768px) {
+  .skeleton--hero {
+    height: 360px;
+    border-radius: 12px;
+  }
+
+  .skeleton--hero__content {
+    bottom: 1.5rem;
+    left: 1.5rem;
+    right: 1.5rem;
+  }
+
+  .skeleton--card {
+    width: 150px;
+  }
+}

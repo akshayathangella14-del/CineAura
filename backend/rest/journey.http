@@ -1,0 +1,8 @@
+@baseUrl = http://localhost:5000
+@movieId = 550
+
+### Movie Journey
+GET {{baseUrl}}/journey/{{movieId}}
+
+### User Journey
+GET {{baseUrl}}/journey/user

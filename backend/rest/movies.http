@@ -1,0 +1,41 @@
+@baseUrl = http://localhost:5000
+@movieId = 550
+
+### Get Movies
+GET {{baseUrl}}/movies?page=1&limit=10
+
+### Search Movies
+GET {{baseUrl}}/movies/search?q=dark thriller&page=1&limit=10
+
+### Trending Movies
+GET {{baseUrl}}/movies/trending
+
+### Popular Movies
+GET {{baseUrl}}/movies/popular
+
+### Top Rated Movies
+GET {{baseUrl}}/movies/top-rated
+
+### Upcoming Movies
+GET {{baseUrl}}/movies/upcoming
+
+### Hero Movie
+GET {{baseUrl}}/movies/hero
+
+### Movie Preview
+GET {{baseUrl}}/movies/preview/{{movieId}}
+
+### Movie Modal
+GET {{baseUrl}}/movies/modal/{{movieId}}
+
+### Movie Details
+GET {{baseUrl}}/movies/{{movieId}}
+
+### Sync Movies
+POST {{baseUrl}}/movies/sync
+Content-Type: application/json
+
+{
+  "type": "popular",
+  "page": 1
+}

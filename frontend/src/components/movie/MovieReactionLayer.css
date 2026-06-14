@@ -1,0 +1,81 @@
+.movie-reaction-layer {
+  margin: 0 0 2.5rem;
+  padding: 1.75rem;
+  border-radius: 20px;
+  border: 1px solid rgba(124, 58, 237, 0.22);
+  background:
+    linear-gradient(135deg, rgba(124, 58, 237, 0.08), rgba(11, 15, 26, 0.65));
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
+}
+
+.movie-reaction-layer__title {
+  margin: 0 0 0.35rem;
+  font-size: 1.45rem;
+}
+
+.movie-reaction-layer__subtitle {
+  margin: 0 0 1.25rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.movie-reaction-layer__grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.movie-reaction-layer__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: 118px;
+  padding: 1rem 0.75rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.movie-reaction-layer__card:hover:not(:disabled) {
+  border-color: rgba(168, 85, 247, 0.45);
+  background: rgba(124, 58, 237, 0.12);
+  box-shadow: 0 12px 30px rgba(124, 58, 237, 0.18);
+}
+
+.movie-reaction-layer__card--active {
+  border-color: rgba(168, 85, 247, 0.75);
+  background: rgba(124, 58, 237, 0.2);
+  box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.35), 0 16px 36px rgba(124, 58, 237, 0.22);
+}
+
+.movie-reaction-layer__emoji {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.movie-reaction-layer__label {
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.movie-reaction-layer__count {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 1024px) {
+  .movie-reaction-layer__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .movie-reaction-layer__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
