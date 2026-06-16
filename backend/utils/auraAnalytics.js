@@ -304,19 +304,18 @@ const countGenreSignalsInReviews = (reviews, genre) =>
 const countGenreSignalsInReactions = (reactions, genre) =>
     reactions.filter(reaction => (reaction.movie?.genres || []).includes(genre)).length
 
-const buildMovieEvidence = (movies, limit = 3) => {
-    const seen = new Set()
+const buildMovieEvidence = (movies, limit = 3, globalSeen = new Set()) => {
     const unique = []
 
     for (const movie of movies) {
         if (!movie) continue
-        const key = movie._id
-            ? String(movie._id)
-            : movie.tmdbId
-                ? String(movie.tmdbId)
+        const key = movie.tmdbId
+            ? String(movie.tmdbId)
+            : movie._id
+                ? String(movie._id)
                 : `${movie.title || ''}::${movie.releaseYear || ''}`
-        if (seen.has(key)) continue
-        seen.add(key)
+        if (globalSeen.has(key)) continue
+        globalSeen.add(key)
         unique.push(compactMovie(movie))
         if (unique.length >= limit) break
     }
@@ -351,6 +350,10 @@ const buildHiddenTruthPayload = (perceived, actual, analytics, channels, actualS
             .map(review => review.movie)
     ]
 
+    const globalSeen = new Set()
+    const actualEvidence = buildMovieEvidence(actualMovies, 3, globalSeen)
+    const perceivedEvidence = buildMovieEvidence(perceivedMovies, 3, globalSeen)
+
     return {
         available: true,
         perceived: {
@@ -365,8 +368,8 @@ const buildHiddenTruthPayload = (perceived, actual, analytics, channels, actualS
         },
         insight: `You explore ${perceived.name} most often, but your strongest responses come from ${actual.name}.`,
         evidence: {
-            perceivedMovies: buildMovieEvidence(perceivedMovies),
-            actualMovies: buildMovieEvidence(actualMovies)
+            perceivedMovies: perceivedEvidence,
+            actualMovies: actualEvidence
         },
         requiredSignals: {
             intent: channels.intentSignalCount,
