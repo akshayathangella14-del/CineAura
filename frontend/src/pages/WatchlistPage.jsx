@@ -22,6 +22,7 @@ const SORT_OPTIONS = [
 const WatchlistPage = () => {
   const navigate = useNavigate()
   const [sections, setSections] = useState([])
+  const [watchlistItems, setWatchlistItems] = useState([])
   const [count, setCount] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
   const [sortParam, setSortParam] = useState('recently-added')
@@ -32,6 +33,7 @@ const WatchlistPage = () => {
     movieService.getWatchlist()
       .then(res => {
         setSections(res.data?.sections || [])
+        setWatchlistItems(res.data?.payload || [])
         setCount(res.data?.payload?.length || 0)
       })
       .finally(() => setIsLoading(false))
@@ -48,7 +50,7 @@ const WatchlistPage = () => {
   }, [])
 
   // Section data extraction
-  const watchNextSection = sections.find(s => s.key === 'watch-next')
+  const watchNextSection = sections.find(s => s.key === 'watching-soon')
   const watchNextMovies = watchNextSection ? (watchNextSection.movies || []).slice(0, 6) : []
   const featuredMovie = watchNextMovies.length > 0 ? watchNextMovies[0] : null
   const remainingWatchNext = watchNextMovies.slice(1)
@@ -56,8 +58,9 @@ const WatchlistPage = () => {
 
   // UI-level filtering to prevent visual duplication
   const watchNextIds = new Set(watchNextMovies.map(m => String(m._id || m.tmdbId)))
-  const myWatchlistSection = sections.find(s => s.key === 'my-watchlist')
-  const myWatchlistMovies = (myWatchlistSection?.movies || []).filter(m => !watchNextIds.has(String(m._id || m.tmdbId)))
+  const myWatchlistMovies = watchlistItems
+    .map(item => item.movie)
+    .filter(m => m && !watchNextIds.has(String(m._id || m.tmdbId)))
 
   const sortedMyWatchlist = useMemo(() => {
     const list = [...myWatchlistMovies]
