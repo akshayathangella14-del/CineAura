@@ -1,7 +1,5 @@
 <div align="center">
 
-<img src="./frontend/public/favicon.svg" alt="CineAura Logo" width="180" />
-
 # CineAura: The Definitive Product Handbook & Engineering Case Study
 
 **A world-class, 10/10 portfolio showcase detailing the localized MERN recommendation engine, behavioral analytics pipelines, and gamification mechanics powering an intelligent cinematic discovery platform.**
