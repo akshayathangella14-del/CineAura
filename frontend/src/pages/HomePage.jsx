@@ -68,7 +68,8 @@ const HomePage = () => {
   }, [fetchHeroMovie, fetchHomeSections, isAuthenticated])
 
   // ── Derive 5-8 hero candidates from already-fetched data ──
-  // Priority: heroMovie first, then trending, popular, top-rated sections
+  // Logged-in: prioritize personalized sections (aura, because-watched)
+  // Guest: use public sections with daily shuffle for variety
   const heroMovies = useMemo(() => {
     const candidates = []
     const seenIds = new Set()
@@ -85,17 +86,20 @@ const HomePage = () => {
     // 1. Lead with the dedicated hero movie
     if (heroMovie) addCandidate(heroMovie)
 
-    // 2. Backfill from homeSections in priority order
-    const priorityKeys = ['trending', 'crowd-favorites', 'critics-obsessions', 'top-rated', 'hidden-gems']
-    const orderedSections = []
+    // 2. Build section priority based on authentication
+    const personalizedKeys = ['aura', 'because-watched', 'continue-journey', 'new-discoveries']
+    const publicKeys = ['trending', 'crowd-favorites', 'critics-obsessions', 'top-rated', 'hidden-gems', 'recently-released']
+    const priorityKeys = isAuthenticated
+      ? [...personalizedKeys, ...publicKeys]
+      : publicKeys
 
+    const orderedSections = []
     if (homeSections?.length) {
-      // Add priority sections first (in order)
       for (const key of priorityKeys) {
         const section = homeSections.find(s => s.key === key)
         if (section?.movies?.length) orderedSections.push(section)
       }
-      // Then any remaining sections not yet added
+      // Include any remaining sections not in priority list
       for (const section of homeSections) {
         if (section?.movies?.length && !priorityKeys.includes(section.key)) {
           orderedSections.push(section)
@@ -103,17 +107,41 @@ const HomePage = () => {
       }
     }
 
-    // Fill candidates from ordered sections until we have 6
+    // 3. Collect eligible movies from sections
+    const pool = []
     for (const section of orderedSections) {
-      if (candidates.length >= 6) break
       for (const movie of section.movies) {
-        if (candidates.length >= 6) break
-        addCandidate(movie)
+        if (!movie || !hasBackdrop(movie)) continue
+        const id = getMovieId(movie)
+        if (!id || seenIds.has(String(id))) continue
+        pool.push(movie)
       }
     }
 
+    // 4. For guests, shuffle pool with a daily seed for variety
+    //    For logged-in users, personalized sections already provide variety
+    if (!isAuthenticated && pool.length > 1) {
+      const daySeed = new Date().toISOString().slice(0, 10)
+      let hash = 0
+      for (let i = 0; i < daySeed.length; i++) {
+        hash = ((hash << 5) - hash + daySeed.charCodeAt(i)) | 0
+      }
+      // Fisher-Yates with deterministic seed
+      for (let i = pool.length - 1; i > 0; i--) {
+        hash = (hash * 1103515245 + 12345) & 0x7fffffff
+        const j = hash % (i + 1)
+        ;[pool[i], pool[j]] = [pool[j], pool[i]]
+      }
+    }
+
+    // 5. Fill remaining hero slots from pool
+    for (const movie of pool) {
+      if (candidates.length >= 7) break
+      addCandidate(movie)
+    }
+
     return candidates.length > 0 ? candidates : heroMovie ? [heroMovie] : []
-  }, [heroMovie, homeSections])
+  }, [heroMovie, homeSections, isAuthenticated])
 
   return (
     <div className="home-page" id="page-home">

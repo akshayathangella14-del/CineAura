@@ -304,11 +304,25 @@ const countGenreSignalsInReviews = (reviews, genre) =>
 const countGenreSignalsInReactions = (reactions, genre) =>
     reactions.filter(reaction => (reaction.movie?.genres || []).includes(genre)).length
 
-const buildMovieEvidence = (movies, limit = 3) =>
-    movies
-        .filter(Boolean)
-        .slice(0, limit)
-        .map(movie => compactMovie(movie))
+const buildMovieEvidence = (movies, limit = 3) => {
+    const seen = new Set()
+    const unique = []
+
+    for (const movie of movies) {
+        if (!movie) continue
+        const key = movie._id
+            ? String(movie._id)
+            : movie.tmdbId
+                ? String(movie.tmdbId)
+                : `${movie.title || ''}::${movie.releaseYear || ''}`
+        if (seen.has(key)) continue
+        seen.add(key)
+        unique.push(compactMovie(movie))
+        if (unique.length >= limit) break
+    }
+
+    return unique
+}
 
 const buildHiddenTruthPayload = (perceived, actual, analytics, channels, actualSource) => {
     const actualReviewSupport = countGenreSignalsInReviews(analytics.reviews, actual.name)
