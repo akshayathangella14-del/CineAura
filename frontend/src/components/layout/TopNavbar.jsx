@@ -3,7 +3,7 @@
 // Integrates with authStore for login/logout state
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, Bell, User, LogOut, Sparkles } from 'lucide-react'
+import { Menu, User, LogOut, Sparkles } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import Logo from '../common/Logo'
 import SearchBar from '../common/SearchBar'
@@ -76,11 +76,6 @@ const TopNavbar = () => {
       <div className="top-navbar__right">
         {isAuthenticated ? (
           <>
-            <button className="top-navbar__action-btn" aria-label="Notifications" id="notifications-btn">
-              <Bell size={19} />
-              <span className="top-navbar__badge" />
-            </button>
-
             {/* Avatar + Dropdown */}
             <div className="top-navbar__avatar-wrapper" ref={menuRef}>
               <button

@@ -165,7 +165,7 @@ const SearchBar = ({ expanded = false, onToggle }) => {
           id="search-input"
           type="text"
           className="search-bar__input"
-          placeholder="Search movies, actors, genres..."
+          placeholder="Search movies, genres, languages, years..."
           value={query || ''}
           onChange={handleChange}
           onFocus={handleFocus}
