@@ -1,5 +1,5 @@
 // CineAura Footer
-// Premium cinematic footer — brand, navigation, project info
+// Premium cinematic footer — brand, navigation, cinematic experience
 // Uses existing design tokens, framer-motion patterns, and route constants
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
@@ -7,11 +7,14 @@ import {
   Home,
   Search,
   TrendingUp,
-  Bookmark,
+  Flame,
   User,
   Route,
   Sparkles,
-  GraduationCap,
+  Clapperboard,
+  Compass,
+  MessageCircle,
+  Trophy,
 } from 'lucide-react'
 import Logo from '../common/Logo'
 import { ROUTES } from '../../utils/constants'
@@ -45,13 +48,21 @@ const EXPLORE_LINKS = [
   { label: 'Discover', path: ROUTES.HOME, icon: Home },
   { label: 'Search', path: ROUTES.SEARCH, icon: Search },
   { label: 'Trending', path: '/movies/trending', icon: TrendingUp },
-  { label: 'Watchlist', path: ROUTES.WATCHLIST, icon: Bookmark },
+  { label: 'Popular', path: '/movies/popular', icon: Flame },
 ]
 
 const JOURNEY_LINKS = [
   { label: 'Profile', path: ROUTES.PROFILE, icon: User },
   { label: 'Journey', path: ROUTES.JOURNEY, icon: Route },
   { label: 'Your Aura', path: ROUTES.AURA, icon: Sparkles },
+]
+
+// ─── Feature highlights for the Cinematic Experience section ────────────────
+const FEATURES = [
+  { label: 'Personalized Recommendations', icon: Compass },
+  { label: 'Movie Journey Tracking', icon: Clapperboard },
+  { label: 'Reviews & Reactions', icon: MessageCircle },
+  { label: 'Achievement Progress', icon: Trophy },
 ]
 
 // ─── Footer Component ───────────────────────────────────────────────────────
@@ -73,9 +84,8 @@ const Footer = () => {
           <motion.div className="footer__brand" variants={itemVariants}>
             <Logo size="sm" />
             <p className="footer__brand-description">
-              Discover movies, build your cinematic identity, and experience
-              personalized movie exploration powered by intelligent
-              recommendations.
+              Discover movies, build your cinematic identity, and uncover
+              stories that match your unique taste.
             </p>
           </motion.div>
 
@@ -113,17 +123,26 @@ const Footer = () => {
             </ul>
           </motion.div>
 
-          {/* Section 4 — Project Information */}
+          {/* Section 4 — Cinematic Experience */}
           <motion.div className="footer__project" variants={itemVariants}>
-            <h3 className="footer__heading">Project</h3>
-            <span className="footer__project-badge">
-              <GraduationCap size={12} strokeWidth={2} />
-              Academic Project
-            </span>
+            <h3 className="footer__heading">Cinematic Experience</h3>
             <p className="footer__project-description">
-              CineAura is an AI-powered movie discovery and recommendation
-              platform developed as a B.Tech AIML project.
+              Every movie tells a story. CineAura helps you discover yours
+              through personalized recommendations, cinematic milestones,
+              and meaningful movie exploration.
             </p>
+            <ul className="footer__links">
+              {FEATURES.map((feature) => (
+                <li key={feature.label}>
+                  <span className="footer__link">
+                    <span className="footer__link-icon">
+                      <feature.icon size={14} strokeWidth={1.8} />
+                    </span>
+                    {feature.label}
+                  </span>
+                </li>
+              ))}
+            </ul>
           </motion.div>
         </div>
 
@@ -134,7 +153,7 @@ const Footer = () => {
             <span className="footer__copyright-brand">CineAura</span>
           </span>
           <span className="footer__tech">
-            Built with React, Node.js, MongoDB, TMDB API and Gemini AI
+            Powered by intelligent recommendations and cinematic exploration.
           </span>
         </motion.div>
       </div>
