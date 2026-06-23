@@ -1,10 +1,11 @@
 // CineAura Main Layout
-// Wraps all authenticated/app pages with Navbar + Sidebar
+// Wraps all authenticated/app pages with Navbar + Sidebar + Footer
 // Used for: Home, Search, Profile, Aura, Journey, Watchlist, Movie Details, Admin
 import { Outlet } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import TopNavbar from './TopNavbar'
 import Sidebar from './Sidebar'
+import Footer from './Footer'
 import './MainLayout.css'
 
 const pageTransition = {
@@ -35,6 +36,9 @@ const MainLayout = () => {
           <Outlet />
         </motion.div>
       </main>
+
+      {/* Global footer — appears on all app pages */}
+      <Footer />
     </div>
   )
 }

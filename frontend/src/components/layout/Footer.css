@@ -1,0 +1,279 @@
+/* ═══════════════════════════════════════
+   CineAura Footer Styles
+   Premium cinematic footer — matches
+   existing design system (TopNavbar,
+   Sidebar, cards, glow effects)
+   ═══════════════════════════════════════ */
+
+/* ── Footer Container ──────────────── */
+.footer {
+  position: relative;
+  width: 100%;
+  margin-top: auto;
+  padding: 3rem 1.5rem 0;
+  background:
+    radial-gradient(
+      ellipse at 50% 0%,
+      rgba(124, 58, 237, 0.06),
+      transparent 60%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(9, 9, 11, 0) 0%,
+      rgba(9, 9, 11, 1) 100%
+    );
+  overflow: hidden;
+}
+
+/* ── Subtle top border — gradient line
+     matching navbar bottom border ──── */
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(124, 58, 237, 0.4),
+      rgba(168, 85, 247, 0.25),
+      rgba(124, 58, 237, 0.4),
+      transparent
+    );
+}
+
+/* ── Ambient glow — soft purple bloom
+     at the top edge ─────────────────── */
+.footer::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 25%;
+  right: 25%;
+  height: 80px;
+  background:
+    radial-gradient(
+      ellipse at 50% 0%,
+      rgba(124, 58, 237, 0.10),
+      transparent 80%
+    );
+  pointer-events: none;
+}
+
+/* ── Inner container ─────────────────── */
+.footer__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Grid: 4 columns ─────────────────── */
+.footer__grid {
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr 0.8fr 1fr;
+  gap: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+/* ── Section titles ──────────────────── */
+.footer__heading {
+  font-family: var(--ca-font, 'Inter', sans-serif);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ca-text-secondary, #94A3B8);
+  margin-bottom: 1.25rem;
+  position: relative;
+  display: inline-block;
+}
+
+.footer__heading::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 20px;
+  height: 2px;
+  border-radius: 1px;
+  background: linear-gradient(90deg, var(--ca-primary, #7c3aed), transparent);
+}
+
+/* ── Brand section ───────────────────── */
+.footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer__brand-description {
+  font-size: 0.8125rem;
+  line-height: 1.65;
+  color: var(--ca-text-secondary, #94A3B8);
+  max-width: 320px;
+}
+
+/* ── Link lists ──────────────────────── */
+.footer__links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.footer__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--ca-text-secondary, #94A3B8);
+  text-decoration: none;
+  transition: all 0.25s ease;
+  padding: 0.15rem 0;
+  position: relative;
+}
+
+.footer__link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 1px;
+  background: var(--ca-primary, #7c3aed);
+  transition: width 0.3s ease;
+}
+
+.footer__link:hover {
+  color: var(--ca-text, #F8FAFC);
+}
+
+.footer__link:hover::before {
+  width: 100%;
+}
+
+.footer__link-icon {
+  display: flex;
+  align-items: center;
+  color: rgba(124, 58, 237, 0.5);
+  transition: color 0.25s ease;
+  flex-shrink: 0;
+}
+
+.footer__link:hover .footer__link-icon {
+  color: var(--ca-accent, #8b5cf6);
+}
+
+/* ── Project info section ────────────── */
+.footer__project {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer__project-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ca-accent, #8b5cf6);
+  background: rgba(124, 58, 237, 0.08);
+  border: 1px solid rgba(124, 58, 237, 0.15);
+  border-radius: 9999px;
+  width: fit-content;
+}
+
+.footer__project-description {
+  font-size: 0.8125rem;
+  line-height: 1.65;
+  color: var(--ca-text-secondary, #94A3B8);
+  max-width: 300px;
+}
+
+/* ── Bottom bar ──────────────────────── */
+.footer__bottom {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 0;
+  gap: 1rem;
+}
+
+.footer__bottom::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(124, 58, 237, 0.12);
+}
+
+.footer__copyright {
+  font-size: 0.75rem;
+  color: rgba(148, 163, 184, 0.6);
+  font-weight: 400;
+}
+
+.footer__copyright-brand {
+  color: var(--ca-accent, #8b5cf6);
+  font-weight: 500;
+}
+
+.footer__tech {
+  font-size: 0.6875rem;
+  color: rgba(148, 163, 184, 0.4);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+/* ── Responsive ──────────────────────── */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .footer__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .footer__brand-description,
+  .footer__project-description {
+    max-width: 100%;
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .footer {
+    padding: 2.5rem 1rem 0;
+  }
+
+  .footer::before {
+    left: 5%;
+    right: 5%;
+  }
+
+  .footer__grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .footer__bottom {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+    padding: 1rem 0;
+  }
+}
