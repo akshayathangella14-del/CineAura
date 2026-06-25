@@ -60,6 +60,7 @@ const ActorDetailsPage = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
   const [isBioExpanded, setIsBioExpanded] = useState(false)
+  const [validatedMovies, setValidatedMovies] = useState([])
   
   // Lightbox State
   const [activePhotoIndex, setActivePhotoIndex] = useState(null)
@@ -172,14 +173,47 @@ const ActorDetailsPage = () => {
       return { ...item, score }
     })
     
-    // Display ONLY Top 5-6 movies
-    const sortedPopular = [...mediaWithScore].sort((a, b) => b.score - a.score).slice(0, 6)
+    // Get top 12 candidates — we'll validate and keep up to 6
+    const sortedPopular = [...mediaWithScore].sort((a, b) => b.score - a.score).slice(0, 12)
 
     return {
       allCredits: uniqueCredits,
       popularMovies: sortedPopular
     }
   }, [creditsData])
+
+  // Validate which popular movies actually exist in CineAura
+  useEffect(() => {
+    if (!popularMovies.length) {
+      setValidatedMovies([])
+      return
+    }
+
+    let cancelled = false
+
+    const validateMovies = async () => {
+      const results = await Promise.allSettled(
+        popularMovies.map((movie) =>
+          movieService.getMoviePreview(movie.id)
+            .then(() => movie)
+            .catch(() => null)
+        )
+      )
+
+      if (cancelled) return
+
+      const existing = results
+        .filter((r) => r.status === 'fulfilled' && r.value !== null)
+        .map((r) => r.value)
+        .slice(0, 6)
+
+      setValidatedMovies(existing)
+    }
+
+    validateMovies()
+
+    return () => { cancelled = true }
+  }, [popularMovies])
 
   if (isLoading) {
     return <ActorDetailsSkeleton />
@@ -379,12 +413,12 @@ const ActorDetailsPage = () => {
           </div>
         </div>
 
-        {/* 3. Popular Movies Shelf (Top 5-6) */}
-        {popularMovies.length > 0 && (
+        {/* 3. Popular Movies Shelf (up to 6 validated) */}
+        {validatedMovies.length > 0 && (
           <div className="actor-details-block actor-details-block--movies">
             <h2 className="actor-main-title">Popular Movies</h2>
             <div className="actor-popular-grid">
-              {popularMovies.map((movie, index) => (
+              {validatedMovies.map((movie, index) => (
                 <MovieCard
                   key={movie.id}
                   movie={{
