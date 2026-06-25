@@ -1,6 +1,7 @@
 import { MovieModel } from '../models/MovieModel.js'
 import { ActorModel } from '../models/ActorModel.js'
-import { fetchFromTMDB, createMovieObj } from '../utils/tmdbHelper.js'
+import { fetchFromTMDB, createMovieObj, getTMDBImage } from '../utils/tmdbHelper.js'
+import { tmdbPosterSize } from '../config/tmdb.js'
 
 let isSyncInProgress = false;
 
@@ -269,4 +270,149 @@ export const getSyncStatus = () => {
         ...syncStats,
         isSyncInProgress
     };
+};
+
+// ------------------------------------------------------------------
+// ACTOR SYNCHRONIZATION
+// ------------------------------------------------------------------
+
+export const syncActor = async (actorId, dryRun = false) => {
+    const startTime = Date.now();
+    const result = { inserted: 0, updated: 0, skipped: 0, errors: 0, durationMs: 0 };
+
+    try {
+        const actor = await ActorModel.findById(actorId);
+        if (!actor) {
+            throw new Error(`Actor ${actorId} not found in database`);
+        }
+
+        // Fetch basic info and movie credits
+        const personData = await fetchFromTMDB(`/person/${actor.tmdbId}`);
+        const creditsData = await fetchFromTMDB(`/person/${actor.tmdbId}/movie_credits`);
+
+        // Category A & B Updates (Basic Info)
+        const updateFields = {
+            name: personData.name || actor.name,
+            biography: personData.biography || actor.biography,
+            birthday: personData.birthday || actor.birthday,
+            placeOfBirth: personData.place_of_birth || actor.placeOfBirth,
+            popularity: personData.popularity || actor.popularity,
+            knownForDepartment: personData.known_for_department || actor.knownForDepartment
+        };
+
+        if (personData.profile_path) {
+            updateFields.profileImage = getTMDBImage(personData.profile_path, tmdbPosterSize);
+            updateFields.profilePath = personData.profile_path;
+            updateFields.profileOriginal = getTMDBImage(personData.profile_path, 'original');
+        }
+
+        // Category C Updates (Credits / Movies)
+        const tmdbMovies = creditsData.cast || [];
+        tmdbMovies.sort((a, b) => b.popularity - a.popularity); // Sort by popularity
+
+        // Find which of these movies ACTUALLY exist in our database
+        const tmdbMovieIds = tmdbMovies.map(m => m.id);
+        const existingMovies = await MovieModel.find({ tmdbId: { $in: tmdbMovieIds } }).select('_id tmdbId title poster');
+
+        const existingMovieMap = {};
+        existingMovies.forEach(m => {
+            existingMovieMap[m.tmdbId] = m;
+        });
+
+        const linkedMoviesIds = [];
+        const knownForArray = [];
+
+        // Build the updated movies array and knownFor array (top 10 popular existing movies)
+        for (const tmdbMovie of tmdbMovies) {
+            const matchedMovie = existingMovieMap[tmdbMovie.id];
+            if (matchedMovie) {
+                linkedMoviesIds.push(matchedMovie._id);
+                if (knownForArray.length < 10) {
+                    knownForArray.push({
+                        tmdbId: matchedMovie.tmdbId,
+                        title: matchedMovie.title,
+                        poster: matchedMovie.poster
+                    });
+                }
+            }
+        }
+
+        updateFields.movies = linkedMoviesIds;
+        updateFields.movieCount = linkedMoviesIds.length;
+        updateFields.knownFor = knownForArray;
+
+        if (!dryRun) {
+            await ActorModel.updateOne({ _id: actor._id }, { $set: updateFields });
+        }
+
+        result.updated = 1;
+    } catch (err) {
+        console.error(`[SYNC] Error syncing actor ${actorId}:`, err.message);
+        result.errors = 1;
+    }
+
+    result.durationMs = Date.now() - startTime;
+    return result;
+};
+
+export const syncActorBatch = async (batchSize = 50, dryRun = false) => {
+    if (isSyncInProgress) {
+        throw new Error("Synchronization already in progress");
+    }
+
+    isSyncInProgress = true;
+    syncStats.status = 'SYNCING_ACTORS';
+    syncStats.lastCategory = 'actors';
+    syncStats.lastSyncStart = new Date();
+
+    const result = {
+        category: 'actors',
+        processed: 0,
+        updated: 0,
+        skipped: 0,
+        errors: 0,
+        durationMs: 0
+    };
+
+    const startTime = Date.now();
+
+    try {
+        const actorsToRefresh = await ActorModel.find()
+            .sort({ updatedAt: 1 })
+            .limit(batchSize)
+            .select('_id tmdbId name');
+
+        for (const actor of actorsToRefresh) {
+            try {
+                await delay(200); // Throttle TMDB rate limit
+                const actorResult = await syncActor(actor._id, dryRun);
+                
+                result.processed++;
+                if (actorResult.updated > 0) result.updated++;
+                if (actorResult.errors > 0) result.errors++;
+            } catch (err) {
+                result.errors++;
+            }
+        }
+    } catch (err) {
+        console.error(`[SYNC] Fatal error during actor batch sync:`, err.message);
+        throw err;
+    } finally {
+        isSyncInProgress = false;
+        syncStats.status = 'IDLE';
+        syncStats.lastSyncComplete = new Date();
+        result.durationMs = Date.now() - startTime;
+        
+        console.log(`[SYNC] ──────────────────────────────────────`);
+        console.log(`[SYNC] Category: Actors`);
+        console.log(`[SYNC] Processed: ${result.processed}`);
+        console.log(`[SYNC] Updated:  ${result.updated}`);
+        console.log(`[SYNC] Skipped:  ${result.skipped}`);
+        console.log(`[SYNC] Errors:   ${result.errors}`);
+        console.log(`[SYNC] Duration: ${(result.durationMs / 1000).toFixed(2)}s`);
+        console.log(`[SYNC] Dry Run:  ${dryRun}`);
+        console.log(`[SYNC] ──────────────────────────────────────`);
+    }
+
+    return result;
 };

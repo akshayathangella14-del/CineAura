@@ -1,7 +1,7 @@
 import exp from 'express'
 import { verifyToken } from '../middlewares/verifyToken.js'
 import { verifyAdmin } from '../middlewares/verifyAdmin.js'
-import { syncCategory, syncMetadataBatch, getSyncStatus } from '../services/SyncService.js'
+import { syncCategory, syncMetadataBatch, getSyncStatus, syncActor, syncActorBatch } from '../services/SyncService.js'
 
 export const syncApp = exp.Router()
 
@@ -72,5 +72,49 @@ syncApp.get("/admin/sync/status", verifyToken, verifyAdmin, (req, res) => {
         });
     } catch (err) {
         res.status(500).json({ message: "Failed to fetch status", error: err.message });
+    }
+});
+
+// ----------------------------------------------------
+// ACTOR SYNC ENDPOINTS
+// ----------------------------------------------------
+
+// Sync Single Actor
+syncApp.post("/admin/sync/actor/:id", verifyToken, verifyAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const dryRun = req.query.dryRun === 'true';
+
+        const result = await syncActor(id, dryRun);
+
+        res.status(200).json({
+            message: `Actor Sync Complete: ${id}`,
+            payload: result
+        });
+    } catch (err) {
+        if (err.message === "Synchronization already in progress") {
+            return res.status(409).json({ message: err.message });
+        }
+        res.status(500).json({ message: "Actor sync failed", error: err.message });
+    }
+});
+
+// Sync Actor Batch
+syncApp.post("/admin/sync/actors", verifyToken, verifyAdmin, async (req, res) => {
+    try {
+        const batchSize = Number(req.query.limit) || Number(req.query.batchSize) || 50;
+        const dryRun = req.query.dryRun === 'true';
+
+        const result = await syncActorBatch(batchSize, dryRun);
+
+        res.status(200).json({
+            message: "Actor Batch Sync Complete",
+            payload: result
+        });
+    } catch (err) {
+        if (err.message === "Synchronization already in progress") {
+            return res.status(409).json({ message: err.message });
+        }
+        res.status(500).json({ message: "Actor batch sync failed", error: err.message });
     }
 });

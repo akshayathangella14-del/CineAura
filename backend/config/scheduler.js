@@ -1,5 +1,5 @@
 import cron from 'node-cron';
-import { syncCategory, syncMetadataBatch } from '../services/SyncService.js';
+import { syncCategory, syncMetadataBatch, syncActorBatch } from '../services/SyncService.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -103,6 +103,38 @@ const initScheduler = () => {
     // Metadata Refresh: Every 2 days at 1:00 AM
     cron.schedule('0 1 */2 * *', () => {
         runMetadataRefresh(50);
+    });
+
+    // ----------------------------------------------------
+    // ACTOR SYNCHRONIZATION (TESTING ONLY)
+    // ----------------------------------------------------
+
+    const runActorSync = async (batchSize = 50) => {
+        try {
+            console.log(`\n==========================`);
+            console.log(`[CRON] ACTOR REFRESH Started`);
+            console.log(`Time: ${new Date().toLocaleString()}`);
+            
+            const result = await syncActorBatch(batchSize, false);
+            
+            if (result.processed === 0 || (result.updated === 0 && result.errors === 0)) {
+                console.log(`\nNo actor updates required.`);
+            } else {
+                console.log(`\nProcessed: ${result.processed}`);
+                console.log(`Updated:   ${result.updated}`);
+                console.log(`Errors:    ${result.errors}`);
+            }
+            
+            console.log(`\nCompleted in ${(result.durationMs / 1000).toFixed(2)}s`);
+            console.log(`==========================\n`);
+        } catch (error) {
+            console.error(`[CRON] Scheduled actor refresh failed:`, error.message);
+        }
+    };
+
+    // Actor Refresh (Test schedule: every 3 minutes)
+    cron.schedule('*/3 * * * *', () => {
+        runActorSync(50);
     });
 
     console.log('[CRON] Registered all synchronization jobs.');

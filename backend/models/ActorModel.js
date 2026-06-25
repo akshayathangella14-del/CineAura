@@ -43,6 +43,9 @@ const actorSchema = new Schema({
     profileOriginal: {
         type: String
     },
+    knownForDepartment: {
+        type: String
+    },
     knownFor: {
         type: [knownForSchema],
         default: []
