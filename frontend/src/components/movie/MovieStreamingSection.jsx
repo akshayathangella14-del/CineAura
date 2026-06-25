@@ -1,6 +1,55 @@
-import { Play } from 'lucide-react'
+import { Play, ExternalLink } from 'lucide-react'
 import { getImageUrl } from '../../utils/formatters'
 import './MovieStreamingSection.css'
+
+const ProviderCard = ({ provider }) => {
+  const content = (
+    <>
+      <div className="movie-streaming-card__logo-wrap">
+        {provider.logoUrl ? (
+          <img
+            src={getImageUrl(provider.logoUrl, 'w92')}
+            alt=""
+            className="movie-streaming-card__logo"
+          />
+        ) : (
+          <div className="movie-streaming-card__logo-fallback">
+            <Play size={18} />
+          </div>
+        )}
+      </div>
+      <div className="movie-streaming-card__info">
+        <h3 className="movie-streaming-card__name">{provider.providerName}</h3>
+        <p className="movie-streaming-card__type">{provider.type}</p>
+      </div>
+      {provider.watchUrl && (
+        <div className="movie-streaming-card__link-icon">
+          <ExternalLink size={14} />
+        </div>
+      )}
+    </>
+  )
+
+  if (provider.watchUrl) {
+    return (
+      <a
+        href={provider.watchUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="movie-streaming-card movie-streaming-card--clickable"
+        title={`Watch on ${provider.providerName}`}
+      >
+        {content}
+      </a>
+    )
+  }
+
+  return (
+    <article className="movie-streaming-card">
+      {content}
+    </article>
+  )
+}
 
 const MovieStreamingSection = ({ providers = [] }) => {
   if (!providers.length) return null
@@ -12,25 +61,10 @@ const MovieStreamingSection = ({ providers = [] }) => {
 
       <div className="movie-streaming-section__grid">
         {providers.map((provider) => (
-          <article key={`${provider.providerName}-${provider.type}`} className="movie-streaming-card">
-            <div className="movie-streaming-card__logo-wrap">
-              {provider.logoUrl ? (
-                <img
-                  src={getImageUrl(provider.logoUrl, 'w92')}
-                  alt=""
-                  className="movie-streaming-card__logo"
-                />
-              ) : (
-                <div className="movie-streaming-card__logo-fallback">
-                  <Play size={18} />
-                </div>
-              )}
-            </div>
-            <div className="movie-streaming-card__info">
-              <h3 className="movie-streaming-card__name">{provider.providerName}</h3>
-              <p className="movie-streaming-card__type">{provider.type}</p>
-            </div>
-          </article>
+          <ProviderCard
+            key={`${provider.providerName}-${provider.type}`}
+            provider={provider}
+          />
         ))}
       </div>
     </section>
@@ -38,3 +72,4 @@ const MovieStreamingSection = ({ providers = [] }) => {
 }
 
 export default MovieStreamingSection
+
