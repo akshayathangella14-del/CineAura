@@ -14,10 +14,6 @@ const SimilarMovieCard = ({ item, index }) => {
   const year = movie.releaseYear || getYear(movie.releaseDate)
   const rating = movie.rating || movie.voteAverage || movie.averageRating
 
-  const matchScore = item.score
-    ? Math.round(Math.min(item.score * 100, 99))
-    : Math.max(70, 96 - index * 3)
-
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated)
   const isWatchlisted = useWatchlistStore((s) => s.isWatchlisted)
   const toggleWatchlist = useWatchlistStore((s) => s.toggleWatchlist)
@@ -59,8 +55,6 @@ const SimilarMovieCard = ({ item, index }) => {
         ) : (
           <div className="movie-similar-card__fallback">{movie.title?.charAt(0) || '?'}</div>
         )}
-
-        <div className="movie-similar-card__match-badge">{matchScore}%</div>
 
         <div className="movie-similar-card__overlay">
           <button
