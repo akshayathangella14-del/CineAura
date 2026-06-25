@@ -325,7 +325,11 @@
 .search-page__grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 1.5rem;
+  gap: 2rem 1.5rem;
+}
+
+.search-page__grid .movie-card {
+  width: 100%;
 }
 
 /* ── Empty State ────────────────────── */

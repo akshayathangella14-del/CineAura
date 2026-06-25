@@ -45,8 +45,13 @@
 
 .see-all-page__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 2.5rem 1.5rem;
+}
+
+/* Ensure the MovieCard scales properly in the grid context */
+.see-all-page__grid .movie-card {
+  width: 100%;
 }
 
 .see-all-page__skeleton {
