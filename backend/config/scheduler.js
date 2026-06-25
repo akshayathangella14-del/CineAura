@@ -20,14 +20,30 @@ const initScheduler = () => {
         return;
     }
 
-    console.log('TMDB Synchronization: Enabled');
+    console.log('TMDB Synchronization: Enabled (TESTING SCHEDULE)');
 
     // Utility to wrap sync calls in try/catch for isolated execution
     const runCategorySync = async (type, pages = 3) => {
         try {
-            console.log(`[CRON] Starting automatic sync for: ${type}`);
+            console.log(`\n==========================`);
+            console.log(`[CRON] ${type.toUpperCase()} Sync Started`);
+            console.log(`Time: ${new Date().toLocaleString()}`);
+            
             const tmdbPath = categoryPaths[type];
-            await syncCategory(tmdbPath, type, pages, false);
+            const result = await syncCategory(tmdbPath, type, pages, false);
+            
+            if (result.inserted === 0 && result.updated === 0 && result.errors === 0) {
+                console.log(`\nNo new movies found.`);
+                console.log(`No updates required.`);
+            } else {
+                console.log(`\nInserted: ${result.inserted}`);
+                console.log(`Updated:  ${result.updated}`);
+                console.log(`Skipped:  ${result.skipped}`);
+                console.log(`Errors:   ${result.errors}`);
+            }
+            
+            console.log(`\nCompleted in ${(result.durationMs / 1000).toFixed(2)}s`);
+            console.log(`==========================\n`);
         } catch (error) {
             console.error(`[CRON] Scheduled sync failed for ${type}:`, error.message);
         }
@@ -35,48 +51,61 @@ const initScheduler = () => {
 
     const runMetadataRefresh = async (batchSize = 50) => {
         try {
-            console.log(`[CRON] Starting automatic metadata refresh. Batch size: ${batchSize}`);
-            await syncMetadataBatch(batchSize, false);
+            console.log(`\n==========================`);
+            console.log(`[CRON] METADATA REFRESH Started`);
+            console.log(`Time: ${new Date().toLocaleString()}`);
+            
+            const result = await syncMetadataBatch(batchSize, false);
+            
+            if (result.refreshed === 0 && result.errors === 0) {
+                console.log(`\nNo metadata updates required.`);
+            } else {
+                console.log(`\nRefreshed: ${result.refreshed}`);
+                console.log(`Errors:    ${result.errors}`);
+            }
+            
+            console.log(`\nCompleted in ${(result.durationMs / 1000).toFixed(2)}s`);
+            console.log(`==========================\n`);
         } catch (error) {
             console.error(`[CRON] Scheduled metadata refresh failed:`, error.message);
         }
     };
 
     // ----------------------------------------------------
-    // Schedules
+    // Schedules (TESTING ONLY)
     // ----------------------------------------------------
 
-    // Trending: Every 6 hours
-    cron.schedule('0 */6 * * *', () => {
+    // Trending: Every 1 minute
+    cron.schedule('* * * * *', () => {
         runCategorySync('trending', 3);
     });
 
-    // Popular: Once daily at 2:00 AM
-    cron.schedule('0 2 * * *', () => {
+    // Popular: Every 2 minutes
+    cron.schedule('*/2 * * * *', () => {
         runCategorySync('popular', 3);
     });
 
-    // Upcoming: Once daily at 3:00 AM
-    cron.schedule('0 3 * * *', () => {
+    // Upcoming: Every 3 minutes
+    cron.schedule('*/3 * * * *', () => {
         runCategorySync('upcoming', 3);
     });
 
-    // Now Playing: Once daily at 4:00 AM
-    cron.schedule('0 4 * * *', () => {
+    // Now Playing: Every 4 minutes
+    cron.schedule('*/4 * * * *', () => {
         runCategorySync('now-playing', 3);
     });
 
-    // Top Rated: Once daily at 5:00 AM
-    cron.schedule('0 5 * * *', () => {
+    // Top Rated: Every 5 minutes
+    cron.schedule('*/5 * * * *', () => {
         runCategorySync('top-rated', 3);
     });
 
-    // Metadata Refresh: Every 2 days at 1:00 AM
-    cron.schedule('0 1 */2 * *', () => {
+    // Metadata Refresh: Every 10 minutes
+    cron.schedule('*/10 * * * *', () => {
         runMetadataRefresh(50);
     });
 
-    console.log('[CRON] Registered all synchronization jobs.');
+    console.log('[CRON] Registered all testing synchronization jobs.');
 };
 
 export default initScheduler;
