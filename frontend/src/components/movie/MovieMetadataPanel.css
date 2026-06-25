@@ -80,6 +80,16 @@
   font-size: 1rem;
   font-weight: 600;
   color: #f8fafc;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.movie-metadata-panel__tag img {
+  width: 20px;
+  height: auto;
+  border-radius: 2px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
 }
 
 .movie-metadata-panel__genre-chip {

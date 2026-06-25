@@ -3,23 +3,31 @@ import { Calendar, Clock, Globe, Tag, Film, MapPin, Info, Captions, Volume2 } fr
 import { formatDate, formatRuntime, formatLanguage, formatLanguageList } from '../../utils/formatters'
 import './MovieMetadataPanel.css'
 
-const getCountryFlag = (name) => {
-  const flags = {
-    'United States of America': '🇺🇸',
-    'United Kingdom': '🇬🇧',
-    'France': '🇫🇷',
-    'Japan': '🇯🇵',
-    'South Korea': '🇰🇷',
-    'India': '🇮🇳',
-    'Canada': '🇨🇦',
-    'Germany': '🇩🇪',
-    'Italy': '🇮🇹',
-    'Spain': '🇪🇸',
-    'Australia': '🇦🇺',
-    'China': '🇨🇳',
-    'Mexico': '🇲🇽'
+const getCountryCode = (name) => {
+  const codes = {
+    'United States of America': 'us',
+    'United Kingdom': 'gb',
+    'France': 'fr',
+    'Japan': 'jp',
+    'South Korea': 'kr',
+    'India': 'in',
+    'Canada': 'ca',
+    'Germany': 'de',
+    'Italy': 'it',
+    'Spain': 'es',
+    'Australia': 'au',
+    'China': 'cn',
+    'Mexico': 'mx',
+    'Russia': 'ru',
+    'Brazil': 'br',
+    'New Zealand': 'nz',
+    'Sweden': 'se',
+    'Denmark': 'dk',
+    'Norway': 'no',
+    'Finland': 'fi',
+    'Ireland': 'ie'
   }
-  return flags[name] ? `${flags[name]} ${name}` : name
+  return codes[name] || null
 }
 
 const CollapsibleChipGroup = ({ chips, limit = 4, icon: Icon, label }) => {
@@ -102,7 +110,21 @@ const MovieMetadataPanel = ({
               <div className="movie-metadata-panel__item">
                 <div className="movie-metadata-panel__item-head"><MapPin size={16} /><span>Country</span></div>
                 <div className="movie-metadata-panel__tags">
-                  {productionCountries.map(c => <span key={c} className="movie-metadata-panel__tag">{getCountryFlag(c)}</span>)}
+                  {productionCountries.map(c => {
+                    const code = getCountryCode(c);
+                    return (
+                      <span key={c} className="movie-metadata-panel__tag">
+                        {code && (
+                          <img 
+                            src={`https://flagcdn.com/w20/${code}.png`} 
+                            srcSet={`https://flagcdn.com/w40/${code}.png 2x`} 
+                            alt={`${c} flag`} 
+                          />
+                        )}
+                        {c}
+                      </span>
+                    )
+                  })}
                 </div>
               </div>
             )}
