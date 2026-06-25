@@ -22,6 +22,8 @@ import { homeApp } from './APIs/HomeAPI.js'
 import { userInsightApp } from './APIs/UserInsightAPI.js'
 import { profileIdentityApp } from './APIs/ProfileIdentityAPI.js'
 import { recommendationAnalyticsApp } from './APIs/RecommendationAnalyticsAPI.js'
+import { syncApp } from './APIs/SyncAPI.js'
+import initScheduler from './config/scheduler.js'
 import { notFound } from './middlewares/notFound.js'
 import { errorHandler } from './middlewares/errorHandler.js'
 
@@ -30,6 +32,7 @@ const app = exp()
 
 app.use(cors({
   origin: [
+    "http://localhost:5173",
     "https://cine-aura-kappa.vercel.app",
     "https://cine-aura-6jojbkavs-akshayathangella14-dels-projects.vercel.app"
   ],
@@ -107,6 +110,7 @@ app.use(interactionApp)
 app.use(homeApp)
 app.use(userInsightApp)
 app.use(recommendationAnalyticsApp)
+app.use(syncApp)
 
 //error middlewares
 app.use(notFound)
@@ -118,6 +122,7 @@ const port = process.env.PORT || 5000
 //connect to db
 const startServer = async () => {
     await connectDB()
+    initScheduler()
     app.listen(port, () => console.log(`server listening on ${port}..`))
 }
 
