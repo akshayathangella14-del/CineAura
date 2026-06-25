@@ -196,18 +196,27 @@
 
 @media (max-width: 720px) {
   .md-hero__grid {
-    grid-template-columns: 1fr;
-    grid-template-areas: unset;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
   }
 
   .md-hero__left {
     max-width: 200px;
     margin: 0 auto;
     width: 100%;
+    grid-area: auto;
   }
 
   .md-hero__center {
     text-align: center;
+    grid-area: auto;
+  }
+  
+  .md-hero__right {
+    grid-area: auto;
+    width: 100%;
+    margin-top: 1rem;
   }
 
   .md-hero__meta,
