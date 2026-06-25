@@ -12,9 +12,9 @@ import {
   Star, 
   Film, 
   Briefcase, 
-  X,
-  Eye
+  X
 } from 'lucide-react'
+import MovieCard from '../components/movie/MovieCard'
 import movieService from '../services/movieService'
 import { getPersonImage, formatDate, getImageUrl, getYear, formatRating } from '../utils/formatters'
 import './ActorDetailsPage.css'
@@ -384,33 +384,19 @@ const ActorDetailsPage = () => {
           <div className="actor-details-block actor-details-block--movies">
             <h2 className="actor-main-title">Popular Movies</h2>
             <div className="actor-popular-grid">
-              {popularMovies.map((movie) => (
-                <div key={movie.id} className="actor-popular-card">
-                  <div className="actor-popular-poster">
-                    {movie.posterPath ? (
-                      <img src={getImageUrl(movie.posterPath, 'w342')} alt={movie.title} loading="lazy" />
-                    ) : (
-                      <div className="poster-fallback">{movie.title.charAt(0)}</div>
-                    )}
-                    <div className="actor-popular-hover">
-                      <Link to={`/movies/${movie.id}`} className="actor-popular-cta">
-                        <Eye size={18} /> View Details
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="actor-popular-info">
-                    <div className="actor-popular-top">
-                      <span className="actor-popular-year">{movie.year}</span>
-                      <span className="actor-popular-rating">
-                        <Star size={10} fill="currentColor" /> {formatRating(movie.voteAverage)}
-                      </span>
-                    </div>
-                    <h4 className="actor-popular-title" title={movie.title}>{movie.title}</h4>
-                    <p className="actor-popular-character" title={movie.character}>
-                      as {movie.character || 'Self'}
-                    </p>
-                  </div>
-                </div>
+              {popularMovies.map((movie, index) => (
+                <MovieCard
+                  key={movie.id}
+                  movie={{
+                    tmdbId: movie.id,
+                    title: movie.title,
+                    posterPath: movie.posterPath,
+                    releaseYear: movie.year,
+                    voteAverage: movie.voteAverage,
+                    genres: [],
+                  }}
+                  index={index}
+                />
               ))}
             </div>
           </div>

@@ -346,130 +346,15 @@
   gap: 0.75rem;
 }
 
-/* 3. Popular Movies Grid (5-6 items, visually premium) */
+/* 3. Popular Movies Grid — uses standard MovieCard component */
 .actor-popular-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 2rem 1.5rem;
 }
 
-.actor-popular-card {
-  background: rgba(255, 255, 255, 0.01);
-  border: 1px solid rgba(255, 255, 255, 0.03);
-  border-radius: 14px;
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
-}
-
-.actor-popular-card:hover {
-  transform: translateY(-8px);
-  border-color: rgba(139, 92, 246, 0.35); /* ca-accent */
-  box-shadow: 
-    0 20px 40px rgba(0, 0, 0, 0.65), 
-    0 0 25px rgba(124, 58, 237, 0.25);
-}
-
-.actor-popular-poster {
+.actor-popular-grid .movie-card {
   width: 100%;
-  aspect-ratio: 2/3;
-  position: relative;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.02);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-}
-
-.actor-popular-poster img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.actor-popular-card:hover .actor-popular-poster img {
-  transform: scale(1.08);
-}
-
-.actor-popular-hover {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(9, 9, 11, 0.82);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  backdrop-filter: blur(2px);
-}
-
-.actor-popular-poster:hover .actor-popular-hover {
-  opacity: 1;
-}
-
-.actor-popular-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: var(--ca-primary);
-  color: #fff;
-  padding: 0.45rem 0.95rem;
-  border-radius: 30px;
-  font-size: 0.75rem;
-  font-weight: 750;
-  cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-  box-shadow: var(--ca-glow-primary);
-}
-
-.actor-popular-cta:hover {
-  transform: scale(1.05);
-  background: var(--ca-accent);
-}
-
-.actor-popular-info {
-  padding: 0.75rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  flex-grow: 1;
-}
-
-.actor-popular-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.7rem;
-  color: var(--ca-text-secondary);
-}
-
-.actor-popular-rating {
-  color: #fbbf24;
-  display: flex;
-  align-items: center;
-  gap: 2px;
-}
-
-.actor-popular-title {
-  color: #fff;
-  font-size: 0.85rem;
-  font-weight: 700;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-top: 0.1rem;
-}
-
-.actor-popular-character {
-  font-size: 0.75rem;
-  color: var(--ca-text-secondary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 /* 4. Portrait Gallery Header & Grid */
@@ -856,11 +741,6 @@
     gap: 2.5rem;
   }
 
-  .actor-popular-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.25rem;
-  }
-
   .actor-gallery-grid {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -908,11 +788,6 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
   }
-
-  .actor-popular-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-  }
 }
 
 @media (max-width: 480px) {
@@ -923,10 +798,6 @@
 
   .actor-hero__name {
     font-size: 1.8rem;
-  }
-
-  .actor-popular-grid {
-    grid-template-columns: repeat(2, 1fr);
   }
 
   .actor-gallery-grid {
