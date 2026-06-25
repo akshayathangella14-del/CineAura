@@ -56,6 +56,12 @@ const movieSchema = new Schema({
         type: String,
         required: [true, "Title is required"]
     },
+    originalTitle: {
+        type: String
+    },
+    tagline: {
+        type: String
+    },
     overview: {
         type: String
     },
@@ -160,6 +166,12 @@ const movieSchema = new Schema({
     keywords: {
         type: [String],
         default: []
+    },
+    lastTMDBSync: {
+        type: Date
+    },
+    lastMetadataRefresh: {
+        type: Date
     }
 }, {
     timestamps: true,

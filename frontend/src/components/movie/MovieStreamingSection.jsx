@@ -72,4 +72,3 @@ const MovieStreamingSection = ({ providers = [] }) => {
 }
 
 export default MovieStreamingSection
-

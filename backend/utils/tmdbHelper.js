@@ -181,6 +181,8 @@ export const createMovieObj = async (movie) => {
     return {
         tmdbId: movieDetails.id,
         title: movieDetails.title,
+        originalTitle: movieDetails.original_title,
+        tagline: movieDetails.tagline,
         overview: movieDetails.overview,
         shortDescription: getShortDescription(movieDetails.overview),
         genres: movieDetails.genres?.map(genre => genre.name) || [],

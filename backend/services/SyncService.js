@@ -33,6 +33,7 @@ const getCategoryUpdateFields = (movie) => {
         rating: movie.vote_average,
         voteCount: movie.vote_count,
         releaseDate: movie.release_date,
+        lastTMDBSync: new Date()
         // averageRating and totalReviews are explicitly excluded
     };
 };
@@ -166,86 +167,153 @@ export const syncMetadataBatch = async (batchSize = 50, dryRun = false) => {
     const startTime = Date.now();
 
     try {
-        // Find movies with oldest updatedAt
+        // Find movies with oldest lastMetadataRefresh (or updatedAt as fallback)
         const moviesToRefresh = await MovieModel.find()
-            .sort({ updatedAt: 1 })
-            .limit(batchSize)
-            .select('tmdbId title updatedAt');
+            .sort({ lastMetadataRefresh: 1, updatedAt: 1 })
+            .limit(batchSize);
 
-        for (const movie of moviesToRefresh) {
+        for (const movieDoc of moviesToRefresh) {
+            const startMovieTime = Date.now();
             try {
-                await delay(250); // Throttle deeply: createMovieObj makes ~6 requests
-                
-                // Fetch basic info from TMDB to pass into createMovieObj
-                // (createMovieObj expects an object with at least .id)
-                const tmdbMovieBasic = await fetchFromTMDB(`/movie/${movie.tmdbId}`);
-                
+                await delay(250); // Throttle TMDB API
+
+                const tmdbMovieBasic = await fetchFromTMDB(`/movie/${movieDoc.tmdbId}`);
                 if (!isValidTMDBMovie(tmdbMovieBasic)) {
-                    console.log(`[SYNC] Skipped invalid metadata payload: ${movie.tmdbId}`);
+                    console.log(`[SYNC] Skipped invalid metadata payload: ${movieDoc.tmdbId}`);
                     result.errors++;
                     continue;
                 }
 
-                const updatedObj = await createMovieObj({ id: movie.tmdbId });
-                
+                const updatedObj = await createMovieObj({ id: movieDoc.tmdbId });
                 if (!updatedObj || !updatedObj.title) {
                     result.errors++;
                     continue;
                 }
 
-                // Explicitly define fields we want to refresh (Category C)
-                // Exclude: averageRating, totalReviews
-                const refreshFields = {
-                    title: updatedObj.title,
-                    overview: updatedObj.overview,
-                    shortDescription: updatedObj.shortDescription,
-                    genres: updatedObj.genres,
-                    language: updatedObj.language,
-                    spokenLanguages: updatedObj.spokenLanguages,
-                    subtitleLanguages: updatedObj.subtitleLanguages,
-                    productionCountries: updatedObj.productionCountries,
-                    status: updatedObj.status,
-                    releaseDate: updatedObj.releaseDate,
-                    releaseYear: updatedObj.releaseYear,
-                    runtime: updatedObj.runtime,
-                    rating: updatedObj.rating,
-                    voteCount: updatedObj.voteCount,
-                    popularity: updatedObj.popularity,
-                    poster: updatedObj.poster,
-                    posterPath: updatedObj.posterPath,
-                    posterOriginal: updatedObj.posterOriginal,
-                    backdrop: updatedObj.backdrop,
-                    backdropPath: updatedObj.backdropPath,
-                    backdropOriginal: updatedObj.backdropOriginal,
-                    trailer: updatedObj.trailer,
-                    trailerKey: updatedObj.trailerKey,
-                    trailerEmbedUrl: updatedObj.trailerEmbedUrl,
-                    cast: updatedObj.cast,
-                    directors: updatedObj.directors,
-                    writers: updatedObj.writers,
-                    crew: updatedObj.crew,
-                    providers: updatedObj.providers,
-                    keywords: updatedObj.keywords
+                const changedFields = { lastMetadataRefresh: new Date() };
+                const logs = [];
+
+                // Helper to safely compare and update primitive fields
+                const checkField = (fieldName, tmdbValue, dbValue, logName) => {
+                    // Do NOT overwrite with empty values
+                    if (tmdbValue !== undefined && tmdbValue !== null && tmdbValue !== "") {
+                        if (tmdbValue !== dbValue) {
+                            changedFields[fieldName] = tmdbValue;
+                            if (logName) {
+                                if (typeof tmdbValue === 'number' && typeof dbValue === 'number') {
+                                    logs.push(`${logName} Updated (${dbValue} → ${tmdbValue})`);
+                                } else {
+                                    logs.push(`${logName} Updated`);
+                                }
+                            }
+                        }
+                    }
                 };
 
-                if (!dryRun) {
-                    await MovieModel.updateOne(
-                        { _id: movie._id },
-                        { $set: refreshFields }
-                    );
+                // Helper for string arrays
+                const checkStringArray = (fieldName, tmdbArr, dbArr, logName) => {
+                    if (tmdbArr && tmdbArr.length > 0) {
+                        const dbArrSafe = dbArr || [];
+                        if (JSON.stringify(tmdbArr) !== JSON.stringify(dbArrSafe)) {
+                            changedFields[fieldName] = tmdbArr;
+                            if (logName) logs.push(`${logName} Updated`);
+                        }
+                    }
+                };
+
+                // Compare Fields
+                checkField('title', updatedObj.title, movieDoc.title, 'Title');
+                checkField('originalTitle', updatedObj.originalTitle, movieDoc.originalTitle, 'Original Title');
+                checkField('tagline', updatedObj.tagline, movieDoc.tagline, 'Tagline');
+                checkField('overview', updatedObj.overview, movieDoc.overview, 'Overview');
+                checkField('shortDescription', updatedObj.shortDescription, movieDoc.shortDescription, null);
+                checkField('status', updatedObj.status, movieDoc.status, 'Status');
+                checkField('releaseDate', updatedObj.releaseDate, movieDoc.releaseDate, 'Release Date');
+                checkField('releaseYear', updatedObj.releaseYear, movieDoc.releaseYear, null);
+                checkField('runtime', updatedObj.runtime, movieDoc.runtime, 'Runtime');
+                checkField('rating', updatedObj.rating, movieDoc.rating, 'Rating');
+                checkField('voteCount', updatedObj.voteCount, movieDoc.voteCount, 'Vote Count');
+                checkField('popularity', updatedObj.popularity, movieDoc.popularity, 'Popularity');
+                checkField('poster', updatedObj.poster, movieDoc.poster, 'Poster');
+                checkField('posterPath', updatedObj.posterPath, movieDoc.posterPath, null);
+                checkField('posterOriginal', updatedObj.posterOriginal, movieDoc.posterOriginal, null);
+                checkField('backdrop', updatedObj.backdrop, movieDoc.backdrop, 'Backdrop');
+                checkField('backdropPath', updatedObj.backdropPath, movieDoc.backdropPath, null);
+                checkField('backdropOriginal', updatedObj.backdropOriginal, movieDoc.backdropOriginal, null);
+                checkField('trailer', updatedObj.trailer, movieDoc.trailer, 'Trailer');
+                checkField('trailerKey', updatedObj.trailerKey, movieDoc.trailerKey, null);
+                checkField('trailerEmbedUrl', updatedObj.trailerEmbedUrl, movieDoc.trailerEmbedUrl, null);
+                checkField('language', updatedObj.language, movieDoc.language, 'Language');
+
+                checkStringArray('genres', updatedObj.genres, movieDoc.genres, 'Genres');
+                checkStringArray('spokenLanguages', updatedObj.spokenLanguages, movieDoc.spokenLanguages, 'Spoken Languages');
+                checkStringArray('subtitleLanguages', updatedObj.subtitleLanguages, movieDoc.subtitleLanguages, 'Subtitle Languages');
+                checkStringArray('productionCountries', updatedObj.productionCountries, movieDoc.productionCountries, 'Production Countries');
+                checkStringArray('directors', updatedObj.directors, movieDoc.directors, 'Directors');
+                checkStringArray('writers', updatedObj.writers, movieDoc.writers, 'Writers');
+                checkStringArray('crew', updatedObj.crew, movieDoc.crew, 'Crew');
+                checkStringArray('keywords', updatedObj.keywords, movieDoc.keywords, 'Keywords');
+
+                // Complex Array: Cast
+                if (updatedObj.cast && updatedObj.cast.length > 0) {
+                    const tmdbCastIds = updatedObj.cast.map(c => c.tmdbId).join(',');
+                    const dbCastIds = (movieDoc.cast || []).map(c => c.tmdbId).join(',');
+                    if (tmdbCastIds !== dbCastIds) {
+                        changedFields['cast'] = updatedObj.cast;
+                        logs.push(`Cast Updated (${(movieDoc.cast || []).length} → ${updatedObj.cast.length})`);
+                    }
                 }
-                
-                result.refreshed++;
-                syncStats.totalUpdated++;
+
+                // Complex Array: Providers
+                if (updatedObj.providers && updatedObj.providers.length > 0) {
+                    const tmdbProvNames = updatedObj.providers.map(p => p.providerName).sort().join(',');
+                    const dbProvNames = (movieDoc.providers || []).map(p => p.providerName).sort().join(',');
+                    if (tmdbProvNames !== dbProvNames) {
+                        changedFields['providers'] = updatedObj.providers;
+                        logs.push('Providers Updated');
+                    }
+                }
+
+                // Execute Update
+                const hasRealChanges = Object.keys(changedFields).length > 1; // more than just lastMetadataRefresh
+
+                if (hasRealChanges) {
+                    if (!dryRun) {
+                        await MovieModel.updateOne(
+                            { _id: movieDoc._id },
+                            { $set: changedFields }
+                        );
+                    }
+                    
+                    console.log(`\n[SYNC]`);
+                    console.log(`Movie: ${movieDoc.title}`);
+                    logs.forEach(log => console.log(log));
+                    console.log(`Completed`);
+                    console.log(`Duration: ${((Date.now() - startMovieTime) / 1000).toFixed(1)} seconds`);
+                    
+                    result.refreshed++;
+                    syncStats.totalUpdated++;
+                } else {
+                    // Only update the refresh timestamp
+                    if (!dryRun) {
+                        await MovieModel.updateOne(
+                            { _id: movieDoc._id },
+                            { $set: { lastMetadataRefresh: new Date() } }
+                        );
+                    }
+                    result.unchanged++;
+                }
 
             } catch (err) {
-                console.error(`[SYNC] Error refreshing metadata for movie ${movie.tmdbId}:`, err.message);
+                console.error(`\n[SYNC] Error refreshing metadata for movie ${movieDoc.tmdbId}:`, err.message);
                 result.errors++;
                 syncStats.totalErrors++;
+                // Crucial Rule: continue processing the remaining movies
+                continue;
             }
         }
     } catch (err) {
-        console.error(`[SYNC] Fatal error during metadata refresh:`, err.message);
+        console.error(`[SYNC] Fatal error during metadata refresh loop:`, err.message);
         throw err;
     } finally {
         isSyncInProgress = false;
@@ -253,13 +321,14 @@ export const syncMetadataBatch = async (batchSize = 50, dryRun = false) => {
         syncStats.lastSyncComplete = new Date();
         result.durationMs = Date.now() - startTime;
         
-        console.log(`[SYNC] ──────────────────────────────────────`);
+        console.log(`\n[SYNC] ──────────────────────────────────────`);
         console.log(`[SYNC] Category: Metadata Refresh`);
         console.log(`[SYNC] Refreshed: ${result.refreshed}`);
+        console.log(`[SYNC] Unchanged: ${result.unchanged}`);
         console.log(`[SYNC] Errors:    ${result.errors}`);
         console.log(`[SYNC] Duration:  ${(result.durationMs / 1000).toFixed(2)}s`);
         console.log(`[SYNC] Dry Run:   ${dryRun}`);
-        console.log(`[SYNC] ──────────────────────────────────────`);
+        console.log(`[SYNC] ──────────────────────────────────────\n`);
     }
 
     return result;
