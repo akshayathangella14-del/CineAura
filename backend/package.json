@@ -6,6 +6,10 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
+    "sync": "node scripts/manualSync.js",
+    "sync:categories": "node scripts/manualSync.js --categories",
+    "sync:metadata": "node scripts/manualSync.js --metadata",
+    "sync:actors": "node scripts/manualSync.js --actors",
     "seed:identity": "node scripts/seedIdentityCatalog.js",
     "migrate:identity": "node scripts/migrateUserIdentity.js",
     "test": "echo \"Error: no test specified\" && exit 1"
